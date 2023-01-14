@@ -2,7 +2,8 @@ class UserAccountController < ApplicationController
 
     def show
 
-        render json: { profile: @user }, status: :ok
+        render json: @user, status: :ok
+
 
     end
 

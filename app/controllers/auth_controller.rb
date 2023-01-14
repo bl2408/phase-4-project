@@ -18,7 +18,7 @@ class AuthController < ApplicationController
     end
 
     def destroy
-        session.clear
+        session.delete(:user_account_id)
         head :no_content
     end
 

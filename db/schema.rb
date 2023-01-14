@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_040904) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_14_054859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,5 +31,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_040904) do
     t.index ["user_account_id"], name: "index_user_login_data_on_user_account_id"
   end
 
+  create_table "vehicle_profiles", force: :cascade do |t|
+    t.bigint "user_account_id", null: false
+    t.string "type"
+    t.string "make"
+    t.string "model"
+    t.string "year"
+    t.string "body"
+    t.integer "odometer"
+    t.json "other"
+    t.json "history_types_list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_account_id"], name: "index_vehicle_profiles_on_user_account_id"
+  end
+
   add_foreign_key "user_login_data", "user_accounts"
+  add_foreign_key "vehicle_profiles", "user_accounts"
 end

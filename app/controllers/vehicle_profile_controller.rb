@@ -1,0 +1,7 @@
+class VehicleProfileController < ApplicationController
+
+
+    
+
+
+end
