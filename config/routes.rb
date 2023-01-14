@@ -7,4 +7,7 @@ Rails.application.routes.draw do
 
   get '/profile', to: "user_account#show"
 
+  get '/vehicles', to: "vehicle_profile#index"
+  get '/vehicles/:id', to: "vehicle_profile#show"
+
 end

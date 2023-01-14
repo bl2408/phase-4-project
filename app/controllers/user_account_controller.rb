@@ -2,8 +2,7 @@ class UserAccountController < ApplicationController
 
     def show
 
-        render json: @user, status: :ok
-
+        render json: @user, serializer: UserProfileVehicleProfileSerializer,status: :ok
 
     end
 
