@@ -9,9 +9,13 @@
 
 require 'date'
 
-current_time = DateTime.now
+@t = DateTime.now - 5.hours
 
-current_time.next_month.strftime "%Y-%m-%d %H:%M"
+def current_time
+    @t = @t + rand(10).minutes
+    @t.next_month.strftime "%Y-%m-%d %H:%M:%S"
+end
+
 
 
 pp "SEEDING"
