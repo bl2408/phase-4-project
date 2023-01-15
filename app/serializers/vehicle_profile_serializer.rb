@@ -1,3 +1,3 @@
 class VehicleProfileSerializer < ActiveModel::Serializer
-  attributes :id, :make, :model, :year, :body, :odometer, :type, :other, :history_types_list
+  attributes :id, :make, :model, :year, :odometer, :type
 end
