@@ -11,7 +11,7 @@ class VehicleProfileHistoriesSerializer < ActiveModel::Serializer
 
     hash[:history] = {
         **ActiveModelSerializers::SerializableResource.new(his_lim, each_serializer: VehicleHistorySerializer).as_json,
-        meta_history: {
+        meta: {
           count: his_lim.size,
           total: his.count
         }

@@ -10,4 +10,8 @@ Rails.application.routes.draw do
   get '/vehicles', to: "vehicle_profile#index"
   get '/vehicles/:id', to: "vehicle_profile#show"
 
+  get '/vehicles/:vehicle_id/history', to: "vehicle_history#index"
+  get '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#show"
+
+
 end
