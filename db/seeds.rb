@@ -32,6 +32,9 @@ vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", y
 # Vehicle history 1
 VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time)
 
+11.times do |i|
+    VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time)
+end
 
 
 #  User account 2
@@ -42,5 +45,10 @@ ul2= UserLoginDatum.create(user_account: ua2, email: "robert@email.com", login_n
 vp2 = VehicleProfile.create(user_account: ua2, make: "Nissan", model: "R34 Skyline", year: "1998")
 # Vehicle history 1
 VehicleHistory.create(vehicle_profile: vp2, category: vhc2, description: "New exhaust", date: current_time)
+
+
+
+#  vehicle profile 1
+vp1 = VehicleProfile.create(user_account: ua1, make: "Toyota", model: "Supra", year: "1994")
 
 pp "SEEDING FINISHED"
