@@ -7,13 +7,16 @@ class VehicleProfileHistoriesSerializer < ActiveModel::Serializer
     hash = super
 
     his = object.vehicle_histories
-    his_lim = his.limit(10)
+    his_lim = his.limit(10).order(date: :desc)
 
     hash[:history] = {
         **ActiveModelSerializers::SerializableResource.new(his_lim, each_serializer: VehicleHistorySerializer).as_json,
         meta: {
           count: his_lim.size,
-          total: his.count
+          total: his.count,
+          offset: 0,
+          limit: 10,
+          order: "DESC"
         }
       }
     hash

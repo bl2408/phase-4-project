@@ -6,7 +6,7 @@ class VehicleProfileController < ApplicationController
 
     def show
         vehicle = @user.vehicle_profiles.where(id: params[:id])[0];
-        return render json: ["No vehicle found!"], status: :not_found unless vehicle
+        return response_not_found("vehicle") unless vehicle
 
         render serializer: VehicleProfileHistoriesSerializer, json: vehicle, status: :ok
     end

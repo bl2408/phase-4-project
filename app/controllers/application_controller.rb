@@ -10,11 +10,23 @@ class ApplicationController < ActionController::API
   
     def authorize
       @user = UserAccount.find_by(id: session[:user_account_id])
-      return render json: ["Not authorized!"], status: :unauthorized unless @user
+      return response_unauthorized unless @user
     end
   
     def show_errors e
-      render json: e.record.errors.full_messages, status: :unprocessable_entity
+      render_response({errors: e.record.errors.full_messages}, :unprocessable_entity)
+    end
+
+    def response_not_found item
+      render_response({errors: ["No #{item} found!"]}, :not_found)
+    end
+
+    def response_unauthorized
+      render_response({errors: ["Unauthorized!"]}, :unauthorized)
+    end
+
+    def render_response msg, status
+      render json: ActiveModelSerializers::SerializableResource.new(msg), status: status
     end
     
 end
