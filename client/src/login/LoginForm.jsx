@@ -9,8 +9,6 @@ export default function LoginForm(){
         <>
             <div className="window shadow bg sh7">
                 <h1>Login</h1>
-                <h2>Login</h2>
-                <div>Some random text</div>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Username:
@@ -20,7 +18,7 @@ export default function LoginForm(){
                         Password:
                         <input type="password" name="input_username" />
                     </label>
-                    <div>
+                    <div className='section-buttons'>
                         <input className='btn-hi' type="submit" value="Login" />
                         <input type="reset" value="Clear" />
                     </div>

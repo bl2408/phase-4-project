@@ -1,11 +1,18 @@
-form{
-    width: 320px;
+
+.window, form{
+    min-width: 320px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 label{
     display: flex;
     flex-direction: column;
+}
+
+.section-buttons{
+    display: flex;
+    gap:10px;
+    justify-content: flex-end;
 }

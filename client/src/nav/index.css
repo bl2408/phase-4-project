@@ -1,0 +1,14 @@
+nav{
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+nav > div{
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav button{
+    padding: 10px;
+    font-size: 1.6rem;
+}
