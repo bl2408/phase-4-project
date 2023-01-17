@@ -1,0 +1,220 @@
+html {
+    --hueSatHighlight: 0, 85%;
+
+	--highlight1Color: hsl(var(--hueSatHighlight), 50%);
+    --highlight2Color: hsl(var(--hueSatHighlight), 60%);
+    --highlight3Color: hsl(var(--hueSatHighlight), 70%);
+
+	--shadow1Color: 0 0 7px hsl(0, 0%, 10%, var(--shadowOpacity));
+}
+
+html[data-theme="light"] {
+	--shade1Color: hsl(0, 0%, 15%);
+    --shade2Color: hsl(0, 0%, 25%);
+    --shade3Color: hsl(0, 0%, 35%);
+    --shade4Color: hsl(0, 0%, 45%);
+    --shade5Color: hsl(0, 0%, 55%);
+    --shade6Color: hsl(0, 0%, 85%);
+    --shade7Color: hsl(0, 0%, 90%);
+
+	--shadowOpacity: 0.1;
+
+	--button: hsl(0, 0%, 60%);
+	--buttonActive: hsl(0, 0%, 70%);
+}
+
+html[data-theme="dark"] {
+	--shade1Color: hsl(0, 0%, 85%);
+    --shade2Color: hsl(0, 0%, 75%);
+    --shade3Color: hsl(0, 0%, 65%);
+    --shade4Color: hsl(0, 0%, 55%);
+    --shade5Color: hsl(0, 0%, 45%);
+    --shade6Color: hsl(0, 0%, 15%);
+    --shade7Color: hsl(0, 0%, 20%);
+	
+	--shadowOpacity: 0.6;
+
+	--button: hsl(0, 0%, 30%);
+	--buttonActive: hsl(0, 0%, 20%);
+}
+
+:root{
+	background-color: var(--shade6Color);
+	color: var(--shade1Color);
+}
+
+h1{ color: var(--shade1Color); }
+h2{ color: var(--shade2Color); }
+
+input{
+	background-color: var(--shade6Color);
+	color: var(--shade1Color);
+}
+input:focus,
+button:focus, 
+input[type="submit"]:focus, 
+input[type="reset"]:focus,
+button:hover, 
+input[type="submit"]:hover, 
+input[type="reset"]:hover 
+{
+	outline-color: var(--shade4Color);
+}
+
+button, input[type="submit"], input[type="reset"]{
+	background-color: var(--button);
+	color: white;
+}
+
+button:active, input[type="submit"]:active, input[type="reset"]:active{
+	background-color: var(--buttonActive);
+}
+
+button.btn-hi:focus, 
+input[type="submit"].btn-hi:focus, 
+input[type="reset"].btn-hi:focus,
+button.btn-hi:hover, 
+input[type="submit"].btn-hi:hover, 
+input[type="reset"].btn-hi:hover 
+{
+	outline-color: var(--highlight1Color);
+}
+
+button.btn-hi, input[type="submit"].btn-hi, input[type="reset"].btn-hi{
+	background-color: var(--highlight2Color);
+}
+
+button.btn-hi:active, input[type="submit"].btn-hi:active, input[type="reset"].btn-hi:active{
+	background-color: var(--highlight3Color);
+}
+
+
+.hi1{ --colVal: var(--highlight1Color); }
+.hi2{ --colVal: var(--highlight2Color); }
+.hi3{ --colVal: var(--highlight3Color); }
+
+.sh1{ --colVal: var(--shade1Color); }
+.sh2{ --colVal: var(--shade2Color); }
+.sh3{ --colVal: var(--shade3Color); }
+.sh4{ --colVal: var(--shade4Color); }
+.sh5{ --colVal: var(--shade5Color); }
+.sh6{ --colVal: var(--shade6Color); }
+.sh7{ --colVal: var(--shade7Color); }
+
+.txt { color: var(--colVal); }
+.bg { background-color: var(--colVal); }
+.shadow { box-shadow: var(--shadow1Color); }
+
+.txt-white{ color: white; }
+
+
+
+
+
+/* html {
+	--highlight-l1: 50%;
+	--highlight-l2: 60%;
+	--highlight-l3: 70%;
+}
+
+
+html[data-theme="light"] {
+	--bg-main-l: ;
+	--bg-secondary-l: 90%;
+
+	--bg-secondary-shadowl: 15%;
+
+	--opacity-button: .2;
+	--col-button: 0, 0, 0;
+
+	--text-main-l: 15%;
+	--text-secondary-l: 25%;
+	--text-primary-l: 35%;
+}
+
+html[data-theme="dark"] {
+	--bg-main-l: 15%;
+	--bg-secondary-l: 20%;
+
+	--bg-secondary-shadowl: 85%;
+
+	--opacity-button: .3;
+	--col-button: 255, 255, 255;
+
+	--text-main-l: 85%;
+	--text-secondary-l: 75%;
+	--text-primary-l: 65%;
+}
+
+
+h1 {
+	color: hsl(0, 0%, var(--text-main-l))
+}
+
+h2 {
+	color: hsl(0, 0%, var(--text-secondary-l))
+}
+
+.window {
+	background-color: hsl(0, 0%, var(--bg-secondary-l));
+	padding: 20px;
+	box-shadow: 0 0 8px hsla(0, 0%, var(--bg-secondary-shadowl), 0.05);
+	border-radius: 10px;
+}
+
+.bg {
+	background-color: hsl(0, 90%, var(--bgCol));
+	color: white;
+}
+
+.txt {
+	color: hsl(0, 90%, var(--txtCol));
+}
+
+input {
+	background-color: hsl(0, 0%, var(--bg-main-l));
+	border: 0;
+	outline: 0;
+	color: inherit;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+input:focus {
+	outline: 1px solid hsl(0, 0%, var(--highlight-l1));
+}
+
+button, input[type="submit"], input[type="reset"] {
+	background-color: rgba(var(--col-button), var(--opacity-button));
+	border: 0;
+	outline: 0;
+	padding: 10px 10px;
+}
+
+button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+	background-color: rgba(var(--col-button), calc(var(--opacity-button) + 0.1));
+	outline: 1px solid rgba(var(--col-button), calc(var(--opacity-button) - .1));
+}
+
+button:focus, input[type="submit"]:focus, input[type="reset"]:focus {
+	background-color: rgba(var(--col-button), calc(var(--opacity-button) + 0.2));
+}
+
+
+.hi1 {
+	--bgCol: var(--highlight-l1);
+	--txtCol: var(--highlight-l1);
+	--col-button: var(--highlight-l1);
+}
+
+.hi2 {
+	--bgCol: var(--highlight-l2);
+	--txtCol: var(--highlight-l2);
+	--col-button: var(--highlight-l2);
+}
+
+.hi3 {
+	--bgCol: var(--highlight-l3);
+	--txtCol: var(--highlight-l3);
+	--col-button: var(--highlight-l3);
+} */
