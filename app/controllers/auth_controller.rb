@@ -10,9 +10,10 @@ class AuthController < ApplicationController
 
             session[:user_account_id] = user.id
 
-            render json: {msg: "welcome" }, status: :ok
+            render json: user, serializer: UserLoginDataSerializer, status: :ok
+            
         else
-            render json: {error: "Failed!"}, status: :unprocessable_entity
+            response_unprocessable_entity "Incorrect username/password!"
         end
 
     end

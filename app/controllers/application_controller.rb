@@ -17,6 +17,10 @@ class ApplicationController < ActionController::API
       render_response({errors: e.record.errors.full_messages}, :unprocessable_entity)
     end
 
+    def response_unprocessable_entity item
+      render_response({errors: [item]}, :unprocessable_entity)
+    end
+
     def response_not_found item
       render_response({errors: ["No #{item} found!"]}, :not_found)
     end
@@ -26,7 +30,8 @@ class ApplicationController < ActionController::API
     end
 
     def render_response msg, status
-      render json: ActiveModelSerializers::SerializableResource.new(msg), status: status
+      res = ActiveModelSerializers::SerializableResource.new(msg)
+      render json: res, status: status
     end
     
 end
