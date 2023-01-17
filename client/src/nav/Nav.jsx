@@ -1,14 +1,17 @@
 import "./index.css";
-export default function Nav({setTheme, theme}){
+import { toggleTheme } from "../reducers/themeSlice";
+import { useSelector, useDispatch } from 'react-redux'
 
-    const toggleTheme =()=>{
-		setTheme(state=> state==="light" ? "dark" : "light");
-	};
+export default function Nav(){
+
+    const theme = useSelector((state) => state.theme.value)
+    const dispatch = useDispatch()
+    
 
     return(
         <nav className="bodyItem">
             <div>
-                <button onClick={toggleTheme}><i className={`fa ${theme ==="light" ? "fa-moon-o" : "fa-sun-o"}`}></i></button>
+                <button onClick={()=>dispatch(toggleTheme())}><i className={`fa ${theme ==="light" ? "fa-moon-o" : "fa-sun-o"}`}></i></button>
             </div>
         </nav>
     );
