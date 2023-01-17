@@ -1,6 +1,7 @@
 nav{
     box-sizing: border-box;
     padding: 10px;
+    height: 60px;
 }
 
 nav > div{

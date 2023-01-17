@@ -1,8 +1,30 @@
 import './index.css'
 export default function LoginForm(){
 
-    const handleSubmit =e=>{
+    const handleSubmit = async e=>{
         e.preventDefault();
+
+        const form = e.target;
+        const login_name = form.input_username.value;
+        const password = form.input_password.value;
+
+        if(login_name.length <= 0 || password.length <= 0){
+            return;
+        }
+
+        const request = await fetch("/api/login",{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                login_name,
+                password
+            })
+        });
+
+        const response = await request.then(res=>res.ok).then(data=>data.json())
+        console.log(response);
     };
 
     return (
@@ -16,7 +38,7 @@ export default function LoginForm(){
                     </label>
                     <label>
                         Password:
-                        <input type="password" name="input_username" />
+                        <input type="password" name="input_password" />
                     </label>
                     <div className='section-buttons'>
                         <input className='btn-hi' type="submit" value="Login" />

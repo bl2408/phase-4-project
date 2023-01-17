@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
 
 import themeReducer from "./reducers/themeSlice"
+import userReducer from "./reducers/userSlice"
 
 import App from './App'
 import './index.css'
@@ -13,6 +14,7 @@ import './colors.css'
 const store = configureStore({ 
   reducer: {
     theme: themeReducer,
+    user: userReducer
   } 
 });
 

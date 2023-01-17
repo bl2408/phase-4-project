@@ -28,13 +28,14 @@ body, h1, h2, p {
 }
 
 .App {
-	min-height: 100vh;
+	min-height: calc(100vh - 60px);
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
 	font-size: 1.6rem;
+	box-sizing: border-box;
 }
 
 .window {

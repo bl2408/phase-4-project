@@ -17,10 +17,6 @@ export const themeSlice = createSlice({
 	}
 });
 
-// export const incrementAsync = (amount) => (dispatch) => {
-// 	dispatch(incrementByAmount(amount))
-// }
-
 export const { toggleTheme, setTheme } = themeSlice.actions
 
 export default themeSlice.reducer

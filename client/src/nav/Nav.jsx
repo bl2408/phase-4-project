@@ -6,7 +6,6 @@ export default function Nav(){
 
     const theme = useSelector((state) => state.theme.value)
     const dispatch = useDispatch()
-    
 
     return(
         <nav className="bodyItem">
