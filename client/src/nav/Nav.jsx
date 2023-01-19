@@ -20,7 +20,7 @@ export default function Nav(){
     };
 
     return(
-        <nav className="bodyItem">
+        <nav className="bodyItem navMain">
             <div>
                 { 
                     user.loggedIn 

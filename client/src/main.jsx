@@ -4,8 +4,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider as ReduxProvider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit'
 
-import themeReducer from "./reducers/themeSlice"
-import userReducer from "./reducers/userSlice"
+import themeSlice from "./reducers/themeSlice"
+import userSlice from "./reducers/userSlice"
+import vehiclesSlice from './reducers/vehiclesSlice';
 
 import App from './App'
 import './index.css'
@@ -13,8 +14,9 @@ import './colors.css'
 
 const store = configureStore({ 
   reducer: {
-    theme: themeReducer,
-    user: userReducer
+    theme: themeSlice,
+    user: userSlice,
+    vehicles: vehiclesSlice,
   },
   devTools: true,
 });

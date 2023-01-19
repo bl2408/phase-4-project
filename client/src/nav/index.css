@@ -1,16 +1,16 @@
-nav{
+nav.navMain{
     box-sizing: border-box;
     padding: 10px;
     height: 60px;
 }
 
-nav > div{
+nav.navMain > div{
     display: flex;
     justify-content: flex-end;
     gap: 10px;
 }
 
-nav button{
+nav.navMain button{
     padding: 10px;
     font-size: 1.6rem;
 }

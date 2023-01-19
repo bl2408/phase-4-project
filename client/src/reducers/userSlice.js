@@ -4,7 +4,7 @@ const initialState = {
 	loggedIn: false,
 	user: {}
 };
-
+//login user
 export const fetchLogin = createAsyncThunk('users/fetchLogin', async (formObj, { rejectWithValue }) => {
 	const response = await fetch("/api/login", {
 		method: "POST",
@@ -21,7 +21,8 @@ export const fetchLogin = createAsyncThunk('users/fetchLogin', async (formObj, {
 	return data;
 });
 
-export const fetchCheck = createAsyncThunk('users/fetchCheck', async (temp, { rejectWithValue }) => {
+//relogin by session
+export const fetchCheck = createAsyncThunk('users/fetchCheck', async (_, { rejectWithValue }) => {
 	const response = await fetch("/api/check");
 	const data = await response.json();
 	if (!response.ok) {
@@ -30,7 +31,8 @@ export const fetchCheck = createAsyncThunk('users/fetchCheck', async (temp, { re
 	return data;
 });
 
-export const fetchLogout = createAsyncThunk('users/fetchLogout', async (temp, { rejectWithValue }) => {
+//logout
+export const fetchLogout = createAsyncThunk('users/fetchLogout', async (_, { rejectWithValue }) => {
 	const response = await fetch("/api/logout", {
 		method: "POST",
 		headers: {
@@ -50,11 +52,17 @@ export const userSlice = createSlice({
 	initialState,
 	extraReducers: (builder) => {
 		builder.addCase(fetchLogin.fulfilled, (state, action) => {
-			state.user = action.payload;
+			state.user ={
+				id: action.payload.data.id,
+				...action.payload. data.attributes,
+			}
 			state.loggedIn = true;
 		}),
 		builder.addCase(fetchCheck.fulfilled, (state, action) => {
-			state.user = action.payload;
+			state.user = {
+				id: action.payload.data.id,
+				...action.payload. data.attributes,
+			}
 			state.loggedIn = true;
 		})
 		builder.addCase(fetchLogout.fulfilled, (state, action) => {
@@ -63,5 +71,6 @@ export const userSlice = createSlice({
 		})
 	},
 });
+
 
 export default userSlice.reducer

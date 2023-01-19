@@ -50,6 +50,8 @@ function App() {
 		dispatch(setTheme(useTheme));
 
 		checkLogin();
+		
+		return()=>{};
 
 	}, []);
 
@@ -58,6 +60,7 @@ function App() {
 	useEffect(() => {
 		document.documentElement.dataset.theme = theme;
 		localStorage.setItem('themePref', theme);
+		return()=>{};
 	}, [theme])
 
 	return (
@@ -67,7 +70,7 @@ function App() {
 
 				<Switch>
 
-					<Route exact path={"/dashboard"}>
+					<Route path={["/dashboard"]}>
 						<Suspense fallback={<div>Loading...</div>}>
 							<Dashboard />
 						</Suspense>
