@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { fetchLogin } from '../reducers/userSlice';
 
 import './index.css'
 export default function LoginForm() {
 
     const dispatch = useDispatch()
-    const user = useSelector(state => state.user);
+    const history = useHistory()
 
     const [errors, setErrors] = useState([]);
 
@@ -17,7 +18,17 @@ export default function LoginForm() {
         const login_name = form.input_username.value;
         const password = form.input_password.value;
 
+        const errors = [];
         if (login_name.length <= 0 || password.length <= 0) {
+            errors.push("Username must be filled in.");  
+        }
+
+        if (password.length <= 0) {
+            errors.push("Password must be filled in.");  
+        }
+
+        if(errors.length > 0){
+            setErrors(state=>errors);
             return;
         }
 
@@ -25,6 +36,7 @@ export default function LoginForm() {
 
         try {
             await dispatch(fetchLogin(formObj)).unwrap()
+            history.push("/dashboard");
         } catch (err) {
             setErrors(state => err)
         }

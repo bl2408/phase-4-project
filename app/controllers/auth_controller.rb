@@ -3,19 +3,21 @@ class AuthController < ApplicationController
     skip_before_action :authorize, only: [:create]
 
     def create
+        user_login = UserLoginDatum.find_by(login_name: params[:login_name])
 
-        user = UserLoginDatum.find_by(login_name: params[:login_name])
+        if user_login&.authenticate(params[:password])
 
-        if user&.authenticate(params[:password])
+            acc_id = user_login.user_account_id
 
-            session[:user_account_id] = user.id
+            session[:user_account_id] = acc_id
 
-            render json: user, serializer: UserLoginDataSerializer, status: :ok
+            @user = UserAccount.find_by(id: acc_id)
+
+            render_user
             
         else
             response_unprocessable_entity "Incorrect username/password!"
         end
-
     end
 
     def destroy
@@ -23,10 +25,8 @@ class AuthController < ApplicationController
         head :no_content
     end
 
-    def check
-
-        render json: { msg: "Secret" }, status: :ok
-
+    def render_user
+        render json: @user, status: :ok
     end
 
 end
