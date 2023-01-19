@@ -1,37 +1,46 @@
-import './index.css'
-export default function LoginForm(){
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLogin } from '../reducers/userSlice';
 
-    const handleSubmit = async e=>{
+import './index.css'
+export default function LoginForm() {
+
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user);
+
+    const [errors, setErrors] = useState([]);
+
+    const handleSubmit = async e => {
         e.preventDefault();
 
         const form = e.target;
         const login_name = form.input_username.value;
         const password = form.input_password.value;
 
-        if(login_name.length <= 0 || password.length <= 0){
+        if (login_name.length <= 0 || password.length <= 0) {
             return;
         }
 
-        const request = await fetch("/api/login",{
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                login_name,
-                password
-            })
-        });
+        const formObj = { login_name, password }
 
-        const response = await request.then(res=>res.ok).then(data=>data.json())
-        console.log(response);
+        try {
+            await dispatch(fetchLogin(formObj)).unwrap()
+        } catch (err) {
+            setErrors(state => err)
+        }
+
     };
 
     return (
         <>
             <div className="window shadow bg sh7">
                 <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
+                {
+                    !!errors
+                        ? errors.map((error, i) => <div className='txt hi1' key={`err-${i}`}>{error}</div>)
+                        : null
+                }
+                <form onSubmit={handleSubmit} autoComplete="off">
                     <label>
                         Username:
                         <input type="text" name="input_username" />

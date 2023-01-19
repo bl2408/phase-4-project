@@ -4,7 +4,7 @@ import { setTheme } from "./reducers/themeSlice";
 
 import Nav from "./nav/Nav";
 import Temp from "./Temp";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 
 const LoginForm = lazy(()=>import("./login/LoginForm"));
 
@@ -13,6 +13,8 @@ function App() {
 	const theme = useSelector(state => state.theme.value);
 	const user = useSelector(state=>state.user);
 	const dispatch = useDispatch();
+
+	const history = useHistory();
 
 	// check if user has theme preferences, else check current theme of user then set theme
 	useEffect(()=>{
@@ -41,19 +43,19 @@ function App() {
 		localStorage.setItem('themePref', theme);
 	},[theme])
 
-	console.log(user.loggedIn )
+	//
+	useEffect(()=>{
+		if(user.loggedIn){
+			history.push("/dashboard");
+		}else{
+			history.push("/login");
+		}
+	}, [user])
 
 	return (
 		<>
 			<Nav />
 			<div className="App bodyItem" style={{justifyContent: "center"}}>
-
-				{ 
-					user.loggedIn 
-					? <Redirect to={"/dashboard"}/>
-					: <Redirect to={"/login"}/>
-				}
-
 				
 				<Switch>
 

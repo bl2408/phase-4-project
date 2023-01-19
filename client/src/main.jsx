@@ -15,7 +15,8 @@ const store = configureStore({
   reducer: {
     theme: themeReducer,
     user: userReducer
-  } 
+  },
+  devTools: true,
 });
 
 ReactDOM.createRoot(document.getElementById('root')).render(

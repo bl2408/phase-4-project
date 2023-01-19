@@ -1,23 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
 	loggedIn: false,
 	user: {}
 };
 
+export const fetchLogin = createAsyncThunk('users/fetchLogin', async (formObj, { rejectWithValue }) => {
+	const response = await fetch("/api/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(formObj)
+	});
+
+	const data = await response.json();
+	if (!response.ok) {
+		return rejectWithValue(data.errors)
+	}
+	return data;
+});
+
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
-	reducers:{
-		setUser:(state, action)=>{
+	extraReducers: (builder) => {
+		builder.addCase(fetchLogin.fulfilled, (state, action) => {
 			state.user = action.payload;
-		},
-		setLoggedIn:(state, action)=>{
-			state.loggedIn = action.payload;
-		}
-	}
+			state.loggedIn = true;
+		})
+	},
 });
 
-export const { setUser, setLoggedIn } = userSlice.actions
+// export const { setUser, setLoggedIn, setUserAll } = userSlice.actions
 
 export default userSlice.reducer
