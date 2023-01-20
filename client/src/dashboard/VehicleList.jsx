@@ -5,6 +5,8 @@ import { fetchVehiclesList } from "../reducers/vehiclesSlice";
 
 import { DASH_PATH } from "../appconstants"
 
+import './index.css'
+
 export default function VehicleList(){
 
     const vehicles = useSelector(state=>state.vehicles);
@@ -34,8 +36,13 @@ export default function VehicleList(){
 
     const vehicleTemplate = ({id, make, model, odometer, type, year})=>{
         return (
-            <div key={`vehicle-list-${id}`} onClick={()=>handleVehicleClick(id)}>
-                {id} - {year} {make} {model} {odometer}
+            <div className="bg sh7 shadow vehicle-item vehicle-list-item" key={`vehicle-list-${id}`} onClick={()=>handleVehicleClick(id)}>
+                
+                <div>{year}</div>
+                <div>{make} {model}</div>
+                
+
+                {/* {id} -   {odometer} */}
             </div>
         )
     };

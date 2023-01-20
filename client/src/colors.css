@@ -4,18 +4,22 @@ html {
 	--highlight1Color: hsl(var(--hueSatHighlight), 50%);
     --highlight2Color: hsl(var(--hueSatHighlight), 60%);
     --highlight3Color: hsl(var(--hueSatHighlight), 70%);
+    --highlight4Color: hsl(var(--hueSatHighlight), 65%);
 
 	--shadow1Color: 0 0 7px hsl(0, 0%, 10%, var(--shadowOpacity));
 }
 
 html[data-theme="light"] {
-	--shade1Color: hsl(0, 0%, 15%);
+ 	--shade1Color: hsl(0, 0%, 15%);
     --shade2Color: hsl(0, 0%, 25%);
     --shade3Color: hsl(0, 0%, 35%);
     --shade4Color: hsl(0, 0%, 45%);
     --shade5Color: hsl(0, 0%, 55%);
     --shade6Color: hsl(0, 0%, 85%);
     --shade7Color: hsl(0, 0%, 90%);
+    --shade8Color: hsl(0, 0%, 95%);
+    --shade9Color: hsl(0, 0%, 100%);
+    --shade10Color: hsl(0, 0%, 75%);
 
 	--shadowOpacity: 0.1;
 
@@ -31,6 +35,9 @@ html[data-theme="dark"] {
     --shade5Color: hsl(0, 0%, 45%);
     --shade6Color: hsl(0, 0%, 15%);
     --shade7Color: hsl(0, 0%, 20%);
+    --shade8Color: hsl(0, 0%, 25%);
+    --shade9Color: hsl(0, 0%, 30%);
+    --shade10Color: hsl(0, 0%, 10%);
 	
 	--shadowOpacity: 0.6;
 

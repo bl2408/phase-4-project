@@ -1,0 +1,103 @@
+main{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.vehicle-item{
+    display: grid;
+    gap: 15px;
+	color: inherit;
+	box-sizing: border-box;
+	max-width: 800px;
+	width: 100%;
+    align-items: stretch;
+    overflow: auto;
+}
+.vehicle-item:hover{
+    background-color: var(--shade8Color);
+}
+.vehicle-item > div{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vehicle-item:hover > div:first-child{
+    background-color: var(--shade9Color);
+}
+
+.vehicle-item > div:first-child{
+    padding: 20px 5px;
+    background-color: var(--shade8Color);
+    color: var(--highlight3Color)
+}
+
+.vehicle-list-item:hover{
+    cursor: pointer;
+}
+.vehicle-list-item{
+    grid-template-columns: 70px max-content;
+    border-radius: 10px;
+}
+
+.vehicle-history-item{
+    grid-template-columns: 70px repeat(3, max-content) auto max-content;
+    
+}
+.vehicle-history-box{
+    border: solid 1px;
+    border-color: rgba(0,0,0,0);
+    border-bottom-color: var(--shade9Color);
+}
+.vehicle-history-box, .vehicle-history-box > * { transition: all 0.5s linear;  }
+.vehicle-history-box.open{
+    border-color: var(--shade9Color);
+}
+.vehicle-history-box > div:nth-child(2){
+    max-height: 0;
+    overflow: hidden;
+    background-color: var(--shade6Color);
+}
+.vehicle-history-box > div:nth-child(2) > div:first-child{
+     padding: 10px; 
+     min-height: 100px;
+     box-sizing: border-box;
+}
+
+.vehicle-history-nav{
+    width: 100%;
+    background-color: var(--shade10Color);
+    padding-left: 10px; 
+    box-sizing: border-box;
+    color: var(--shade9Color);
+
+    display: grid;
+    grid-template-columns: max-content auto;
+    align-items: center;
+
+}
+.vehicle-history-nav > div:last-child{
+    display: flex;
+    justify-content: end;
+}
+.vehicle-history-nav button{
+    outline: unset;
+    background-color: var(--shade7Color);
+    color: var(--shade3Color);
+}
+.vehicle-history-nav button:hover{
+    background-color: var(--shade9Color);
+}
+
+.vehicle-history-nav .btnDelete{
+    background-color: var(--highlight1Color);
+    color: white;
+}
+.vehicle-history-nav .btnDelete:hover{
+    background-color: var(--highlight3Color);
+}
+
