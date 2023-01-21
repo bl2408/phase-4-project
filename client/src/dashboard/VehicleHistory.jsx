@@ -1,7 +1,13 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { displayDate } from "../appFns";
+import { v4 as uuid } from 'uuid';
 
+import "./index.css"
+
+import { CATEGORIES } from "../appconstants";
+import { fetchCategoriesList } from "../reducers/categorySlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const VehicleHistoryForm =  lazy(()=>import("./VehicleHistoryForm"));
 
@@ -11,6 +17,9 @@ export default function VehicleHistory(){
     const [ vehicleObj, setVehicleObj ] = useState({});
     const [ vehicleHistoryObj, setVehicleHistoryObj ] = useState([]);
     const [ historyMeta, setHistoryMeta ] = useState();
+
+    const categories = useSelector(state=>state.categories.items);
+    const dispatch = useDispatch();
     
     const [ editingMode, setEditingMode ] = useState("");
     const getVehicleById = async()=>{
@@ -42,6 +51,16 @@ export default function VehicleHistory(){
         }catch(err){
 
         }
+    };
+
+    const getCategories = async()=>{
+
+        try{
+            dispatch(fetchCategoriesList()).unwrap()
+        }catch(err){
+            console.log(err)
+        }
+
     };
 
     const calculateHistoryMeta =({offset, count, total, limit})=>{
@@ -90,6 +109,7 @@ export default function VehicleHistory(){
     useEffect(()=>{
 
         getVehicleById();
+        getCategories();
 
         return()=>{};
 
@@ -116,9 +136,9 @@ export default function VehicleHistory(){
         const { category, date, description, odometer, updated_at } = history.attributes
         const elementId = `vhi-${id}`
         return (
-            <div id={elementId} className="vehicle-history-box" style={editingMode ===  elementId ? {maxHeight: "1000px"}  : null}>
-                <div onClick={(e)=>handleBoxOpen(e, elementId)} className="vehicle-item vehicle-history-item" key={`history-item-${id}`}>
-                    <div>ICON</div>
+            <div id={elementId} key={elementId} className="vehicle-history-box" style={editingMode ===  elementId ? {maxHeight: "1000px"}  : null}>
+                <div onClick={(e)=>handleBoxOpen(e, elementId)} className="vehicle-item vehicle-history-item">
+                    <div className="icon"><i className={CATEGORIES[category].icon}></i></div>
                     <div>{displayDate(date)}</div>
                     <div>{category}</div>
                     <div>{odometer}</div>
@@ -129,7 +149,7 @@ export default function VehicleHistory(){
                         {
                             editingMode ===  elementId 
                             ?<Suspense fallback={<div>Loading...</div>}>
-                                <VehicleHistoryForm items={{category, date, description, odometer}}/>
+                                <VehicleHistoryForm closeMe={setEditingMode} setVehicleHistoryObj={setVehicleHistoryObj} items={{id, category, date, description, odometer}} categories={categories}/>
                             </Suspense>
                             : null
                         }                     
@@ -145,9 +165,6 @@ export default function VehicleHistory(){
                 </div>
             </div>
         )
-
-        
-        
     };
 
     return (

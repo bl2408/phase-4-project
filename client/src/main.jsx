@@ -7,6 +7,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import themeSlice from "./reducers/themeSlice"
 import userSlice from "./reducers/userSlice"
 import vehiclesSlice from './reducers/vehiclesSlice';
+import categorySlice from './reducers/categorySlice';
 
 import App from './App'
 import './index.css'
@@ -17,6 +18,7 @@ const store = configureStore({
     theme: themeSlice,
     user: userSlice,
     vehicles: vehiclesSlice,
+    categories: categorySlice,
   },
   devTools: true,
 });

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { fetchLogin } from '../reducers/userSlice';
 
-import './index.css'
 export default function LoginForm() {
 
     const dispatch = useDispatch()

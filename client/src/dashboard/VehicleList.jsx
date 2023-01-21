@@ -5,6 +5,8 @@ import { fetchVehiclesList } from "../reducers/vehiclesSlice";
 
 import { DASH_PATH } from "../appconstants"
 
+import { v4 as uuid } from 'uuid';
+
 import './index.css'
 
 export default function VehicleList(){
@@ -36,7 +38,7 @@ export default function VehicleList(){
 
     const vehicleTemplate = ({id, make, model, odometer, type, year})=>{
         return (
-            <div className="bg sh7 shadow vehicle-item vehicle-list-item" key={`vehicle-list-${id}`} onClick={()=>handleVehicleClick(id)}>
+            <div className="bg sh7 shadow vehicle-item vehicle-list-item" key={uuid()} onClick={()=>handleVehicleClick(id)}>
                 
                 <div>{year}</div>
                 <div>{make} {model}</div>

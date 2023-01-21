@@ -45,19 +45,43 @@ body, h1, h2, p {
 	box-sizing: border-box;
 	max-width: 800px;
 	width: 100%;
+
+	min-width: 320px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 h1{ font-size: 2.6rem; }
 h2{ font-size: 2rem; }
 
-input, button, input[type="submit"], input[type="reset"] {
+input, button, input[type="submit"], input[type="reset"], select, textarea {
 	border: 0;
 	outline: 0;
 	padding: 10px;
 	box-sizing: border-box;
 }
 
-input:focus, button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+input:focus, button:hover, input[type="submit"]:hover, input[type="reset"]:hover,
+select:focus, textarea:focus {
 	outline-width: 1px;
 	outline-style: solid;
+}
+
+label{
+    display: flex;
+    flex-direction: column;
+}
+
+.section-buttons{
+    display: flex;
+    gap:10px;
+    justify-content: flex-end;
+}
+
+form{
+	min-width: 320px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }

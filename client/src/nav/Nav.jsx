@@ -24,7 +24,7 @@ export default function Nav(){
             <div>
                 { 
                     user.loggedIn 
-                    ? <button onClick={handleLogout}>Logout</button>
+                    ? <button onClick={handleLogout}><i className="fa fa-sign-out"></i></button>
                     : null
                 }
                 <button onClick={()=>dispatch(toggleTheme())}><i className={`fa ${theme ==="light" ? "fa-moon-o" : "fa-sun-o"}`}></i></button>

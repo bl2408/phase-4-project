@@ -31,7 +31,7 @@ main{
 }
 
 .vehicle-item > div:first-child{
-    padding: 20px 5px;
+    padding: 15px 5px;
     background-color: var(--shade8Color);
     color: var(--highlight3Color)
 }
@@ -99,5 +99,9 @@ main{
 }
 .vehicle-history-nav .btnDelete:hover{
     background-color: var(--highlight3Color);
+}
+
+.vehicle-history-box .icon{
+    font-size: 3.5rem;
 }
 

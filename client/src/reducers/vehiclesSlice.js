@@ -18,6 +18,13 @@ export const fetchVehiclesList = createAsyncThunk('vehicles/fetchVehiclesList', 
 export const vehiclesSlice = createSlice({
 	name: 'vehiclesList',
 	initialState,
+	// reducers:{
+	// 	updateHistoryById:(state,action)=>{
+	// 		const { id } = action.payload
+	// 		console.log(state.items)
+	// 		console.log(state.items.find(item=>item.id === id))
+	// 	}
+	// },
 	extraReducers: (builder) => {
 		builder.addCase(fetchVehiclesList.fulfilled, (state, action) => {
 			state.items = [
@@ -26,5 +33,7 @@ export const vehiclesSlice = createSlice({
 		})
     }
 });
+
+// export const { updateHistoryById } = vehiclesSlice.actions
 
 export default vehiclesSlice.reducer

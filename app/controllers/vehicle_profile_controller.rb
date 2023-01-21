@@ -11,4 +11,8 @@ class VehicleProfileController < ApplicationController
         render serializer: VehicleProfileHistoriesSerializer, json: vehicle, status: :ok
     end
 
+    def categories
+        render json: VehicleHistoryCategory.all, status: :ok
+    end
+
 end

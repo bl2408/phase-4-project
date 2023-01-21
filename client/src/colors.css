@@ -53,17 +53,19 @@ html[data-theme="dark"] {
 h1{ color: var(--shade1Color); }
 h2{ color: var(--shade2Color); }
 
-input{
+input, select, textarea{
 	background-color: var(--shade6Color);
 	color: var(--shade1Color);
 }
 input:focus,
 button:focus, 
+textarea:focus, 
 input[type="submit"]:focus, 
 input[type="reset"]:focus,
 button:hover, 
 input[type="submit"]:hover, 
-input[type="reset"]:hover 
+input[type="reset"]:hover,
+select:focus
 {
 	outline-color: var(--shade4Color);
 }
@@ -82,7 +84,7 @@ input[type="submit"].btn-hi:focus,
 input[type="reset"].btn-hi:focus,
 button.btn-hi:hover, 
 input[type="submit"].btn-hi:hover, 
-input[type="reset"].btn-hi:hover 
+input[type="reset"].btn-hi:hover
 {
 	outline-color: var(--highlight1Color);
 }

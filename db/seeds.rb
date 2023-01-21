@@ -9,11 +9,14 @@
 
 require 'date'
 
-@t = DateTime.now - 5.hours
+@t = Time.current - 5.hours
+
+pp DateTime.now
+pp @t
 
 def current_time
     @t = @t + rand(10).minutes
-    @t.next_month.strftime "%Y-%m-%d %H:%M:%S"
+    @t.strftime "%Y-%m-%d %H:%M"
 end
 
 

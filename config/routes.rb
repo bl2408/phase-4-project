@@ -12,5 +12,10 @@ Rails.application.routes.draw do
   get '/vehicles/:vehicle_id/history', to: "vehicle_history#index"
   get '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#show"
 
+  put '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"
+  patch '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"
+
+  get '/list/categories', to: "vehicle_profile#categories"
+
 
 end

@@ -30,6 +30,16 @@ class VehicleHistoryController < ApplicationController
         render json: query, status: :ok
     end
 
+    def update
+        
+        hist = VehicleHistory.find_by(id: params[:id])
+        update_details = params.require(:vehicle_history).permit(:odometer, :description, :date, :category_id)
+        update_details[:date] = Time.parse(update_details[:date]).getutc
+        hist.update(update_details)
+
+        render json: hist, status: :ok
+    end
+
     private 
 
     def check_int_set_int_param default, param, start_no, end_no
