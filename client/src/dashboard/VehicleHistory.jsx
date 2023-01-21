@@ -35,8 +35,8 @@ export default function VehicleHistory(){
             }
 
             setVehicleObj(state=>{
-                const {make, model, year, odometer, body, other, type } = responseData.data.attributes
-                return {make, model, year, odometer, body, other, type }
+                const {make, model, year, odometer, body, other, type, history_types_list } = responseData.data.attributes
+                return {make, model, year, odometer, body, other, type, history_types_list }
             });
 
             const historyData = responseData.data.attributes.history;
@@ -133,14 +133,20 @@ export default function VehicleHistory(){
 
     const vehicleHistoryItemTemplate = (history)=>{
         const { id } = history
-        const { category, date, description, odometer, updated_at } = history.attributes
+        const { category, date, description, odometer, updated_at, extras } = history.attributes
         const elementId = `vhi-${id}`
         return (
             <div id={elementId} key={elementId} className="vehicle-history-box" style={editingMode ===  elementId ? {maxHeight: "1000px"}  : null}>
                 <div onClick={(e)=>handleBoxOpen(e, elementId)} className="vehicle-item vehicle-history-item">
                     <div className="icon"><i className={CATEGORIES[category].icon}></i></div>
                     <div>{displayDate(date)}</div>
-                    <div>{category}</div>
+                    <div>
+                        {
+                            category === "Other" 
+                            ? extras?.other?.name 
+                            : category
+                        }
+                    </div>
                     <div>{odometer}</div>
                 </div>
                 <div>
@@ -149,7 +155,14 @@ export default function VehicleHistory(){
                         {
                             editingMode ===  elementId 
                             ?<Suspense fallback={<div>Loading...</div>}>
-                                <VehicleHistoryForm closeMe={setEditingMode} setVehicleHistoryObj={setVehicleHistoryObj} items={{id, category, date, description, odometer}} categories={categories}/>
+                                <VehicleHistoryForm 
+                                    closeMe={setEditingMode} 
+                                    setVehicleHistoryObj={setVehicleHistoryObj} 
+                                    items={{id, category, date, description, odometer, extras}} 
+                                    categories={categories}
+                                    historyList={vehicleObj.history_types_list}
+                                    setVehicleObj={setVehicleObj}
+                                />
                             </Suspense>
                             : null
                         }                     

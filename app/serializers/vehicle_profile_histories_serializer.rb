@@ -1,6 +1,6 @@
 class VehicleProfileHistoriesSerializer < ActiveModel::Serializer
   # has_many :vehicle_histories, key: :history, serializer: VehicleHistorySerializer
-  attributes :id, :make, :model, :year, :body, :odometer, :type, :other
+  attributes :id, :make, :model, :year, :body, :odometer, :type, :other, :history_types_list
 
 
   def attributes(*args)
