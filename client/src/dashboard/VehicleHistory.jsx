@@ -24,6 +24,7 @@ export default function VehicleHistory(){
     const [ formSelect, setFormSelect ] = useState("");
     const getVehicleById = async()=>{
         try{
+
             const response = await fetch(`/api/vehicles/${vehicleId}`);
 
             const responseData = await response.json();
@@ -101,7 +102,41 @@ export default function VehicleHistory(){
                 ...calculateHistoryMeta(responseData.meta)
             }))
         }catch(err){
+            console.log(err)
+            console.log(err.cause)
+        }
 
+    };
+
+    const handleHistoryOrderChange =async(order)=>{
+
+        const queryParams = new URLSearchParams({
+            offset:0,
+            limit: 10,
+            order,
+        });
+
+        try{
+            const response = await fetch(`/api/vehicles/${vehicleId}/history${queryParams ? `?${queryParams.toString()}` : ""}`);
+
+            const responseData = await response.json();
+
+            if(!response.ok){
+                throw new Error("Server error", {
+                    cause: responseData.errors
+                });
+            }
+
+
+            setVehicleHistoryObj(state=>[...responseData.data]);
+
+            setHistoryMeta(state=>({
+                ...responseData.meta,
+                ...calculateHistoryMeta(responseData.meta)
+            }))
+        }catch(err){
+            console.log(err)
+            console.log(err.cause)
         }
 
     };
@@ -221,12 +256,40 @@ export default function VehicleHistory(){
         )
     };
 
+    const sortList =()=>{
+
+        if(!historyMeta || !vehicleHistoryObj){ return [];}
+
+        const { order } = historyMeta
+
+        return vehicleHistoryObj.sort((a,b)=>{
+
+            const newA = new Date(a.attributes.date).getTime();
+            const newB = new Date(b.attributes.date).getTime();
+
+            if(order.toUpperCase() === "DESC"){
+                return newB - newA
+            }
+
+            return newA - newB
+
+        });
+
+    };
+
     return (
         <div className="window bg sh7 shadow">
             <header>
                 <h1>{vehicleObj.year} {vehicleObj.make} {vehicleObj.model} </h1>
                 <h2></h2>
                 <div className="section-buttons">
+                    <div>
+                        Date: &ensp;
+                        <select onChange={e=>handleHistoryOrderChange(e.target.value)}>
+                            <option value="DESC">Descending</option>
+                            <option value="ASC">Ascending</option>
+                        </select>
+                    </div>
                     <button onClick={(e)=>handleOpenCloseForm("add-form")} className="btn-hi"><i className="fa fa-plus "></i></button>
                 </div>
             </header>
@@ -249,8 +312,11 @@ export default function VehicleHistory(){
                 }
                 
             </div>
+
             <div>
-                {vehicleHistoryObj.map(history=>vehicleHistoryItemTemplate(history))}
+                {
+                    sortList().map(history=>vehicleHistoryItemTemplate(history))
+                }
             </div>
             <div>
                 <div style={{textAlign:"center", marginBottom:"10px"}}>
