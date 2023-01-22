@@ -48,6 +48,12 @@ class VehicleHistoryController < ApplicationController
         render json: hist, status: :ok
     end
 
+    def destroy
+        hist = VehicleHistory.find_by(id: params[:id])
+        hist.destroy
+        head :no_content
+    end
+
     private 
 
     def insert_extras_profile hist

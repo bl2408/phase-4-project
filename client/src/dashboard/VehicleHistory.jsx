@@ -131,6 +131,46 @@ export default function VehicleHistory(){
         setFormSelect(state=>state === id ? "" : id);
     };
 
+    const handleDeleteHistory = async (id, description)=>{
+
+        const newTitle = description.length > 50 ? `${description.substring(0, 50)}...` : description
+
+        if(!window.confirm(`Deleting history:\n"${newTitle}."\nAre you sure?`)){ return; }
+
+        try{
+            const response = await fetch(`/api/vehicles/${vehicleId}/history/${id}`,{
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            
+            if(!response.ok){
+                const responseData = await response.json();
+                throw new Error("Server error", {
+                    cause: responseData.errors
+                });
+            }
+
+            setVehicleHistoryObj(state=>state.filter(h=>h.id !== id));
+
+            setHistoryMeta(state=>{
+                state = {
+                    ...state,
+                    count: state.count - 1,
+                    total: state.total - 1
+                }
+
+                return { ...state, ...calculateHistoryMeta(state) }
+
+            })
+
+        }catch(err){
+            console.log(err)
+            console.log(err.cause)
+        }
+    }
+
     const vehicleHistoryItemTemplate = (history)=>{
         const { id } = history
         const { category, date, description, odometer, updated_at, extras } = history.attributes
@@ -173,7 +213,7 @@ export default function VehicleHistory(){
                         <div>Last updated: {displayDate(updated_at)}</div>
                         <div>
                             <button><i className="fa fa-edit" onClick={()=>handleOpenCloseForm(elementId)}></i></button>
-                            <button className="btnDelete"><i className="fa fa-trash"></i></button>
+                            <button className="btnDelete" onClick={()=>handleDeleteHistory(id, description)}><i className="fa fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
@@ -201,6 +241,8 @@ export default function VehicleHistory(){
                             categories={categories}
                             historyList={vehicleObj.history_types_list}
                             setVehicleObj={setVehicleObj}
+                            setHistoryMeta={setHistoryMeta}
+                            calculateHistoryMeta={calculateHistoryMeta}
                         />
                     </Suspense>
                     : null

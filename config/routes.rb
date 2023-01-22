@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   put '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"
   patch '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"
 
+  delete '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#destroy"
+
   get '/list/categories', to: "vehicle_profile#categories"
 
 

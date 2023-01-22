@@ -5,7 +5,7 @@ import { ISODate } from "../appFns";
 import { v4 as uuid } from "uuid";
 
 
-export default function VehicleHistoryForm({mode, closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj}){
+export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta, mode, closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj}){
     const { vehicleId } = useParams()
 
     const form = useRef()
@@ -74,6 +74,16 @@ export default function VehicleHistoryForm({mode, closeMe, setVehicleHistoryObj,
                 setVehicleHistoryObj(state=>state.map(h=>h.id===items.id ? { ...data.data} : h));
             }else{
                 setVehicleHistoryObj(state=>[...state, data.data])
+                setHistoryMeta(state=>{
+                    state = {
+                        ...state,
+                        count: state.count + 1,
+                        total: state.total + 1
+                    }
+    
+                    return { ...state, ...calculateHistoryMeta(state) }
+    
+                });
             }
             if(categorySelect==="Other"){
                 setVehicleObj(state=>({...state, history_types_list: [...new Set([...state.history_types_list, otherNameValue])]}))
