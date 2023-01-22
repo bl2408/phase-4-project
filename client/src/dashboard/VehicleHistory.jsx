@@ -21,7 +21,7 @@ export default function VehicleHistory(){
     const categories = useSelector(state=>state.categories.items);
     const dispatch = useDispatch();
     
-    const [ editingMode, setEditingMode ] = useState("");
+    const [ formSelect, setFormSelect ] = useState("");
     const getVehicleById = async()=>{
         try{
             const response = await fetch(`/api/vehicles/${vehicleId}`);
@@ -115,20 +115,20 @@ export default function VehicleHistory(){
 
     },[]);
 
-    const handleBoxOpen =(e, elId)=>{
+    const handleHistoryItemOpen =(e, elId)=>{
         e.stopPropagation()
         const el = document.querySelector(`#${elId}`);
         el.classList.toggle("open");
         let description = el.children[el.children.length-1]
         description.style.maxHeight = !!description.style.maxHeight ? null : '1000px' ;
 
-        if(editingMode === elId){
-            setEditingMode(state=>"");
+        if(formSelect === elId){
+            setFormSelect(state=>"");
         }
     };
 
-    const handleEditingMode = (id)=>{
-        setEditingMode(state=>state === id ? "" : id);
+    const handleOpenCloseForm = (id)=>{
+        setFormSelect(state=>state === id ? "" : id);
     };
 
     const vehicleHistoryItemTemplate = (history)=>{
@@ -136,8 +136,8 @@ export default function VehicleHistory(){
         const { category, date, description, odometer, updated_at, extras } = history.attributes
         const elementId = `vhi-${id}`
         return (
-            <div id={elementId} key={elementId} className="vehicle-history-box" style={editingMode ===  elementId ? {maxHeight: "1000px"}  : null}>
-                <div onClick={(e)=>handleBoxOpen(e, elementId)} className="vehicle-item vehicle-history-item">
+            <div id={elementId} key={elementId} className="vehicle-history-box" style={formSelect ===  elementId ? {maxHeight: "1000px"}  : null}>
+                <div onClick={(e)=>handleHistoryItemOpen(e, elementId)} className="vehicle-item vehicle-history-item">
                     <div className="icon"><i className={CATEGORIES[category].icon}></i></div>
                     <div>{displayDate(date)}</div>
                     <div>
@@ -153,10 +153,11 @@ export default function VehicleHistory(){
                     <div>
                         {description}   
                         {
-                            editingMode ===  elementId 
+                            formSelect ===  elementId 
                             ?<Suspense fallback={<div>Loading...</div>}>
-                                <VehicleHistoryForm 
-                                    closeMe={setEditingMode} 
+                                <VehicleHistoryForm
+                                    mode="edit"
+                                    closeMe={setFormSelect} 
                                     setVehicleHistoryObj={setVehicleHistoryObj} 
                                     items={{id, category, date, description, odometer, extras}} 
                                     categories={categories}
@@ -171,7 +172,7 @@ export default function VehicleHistory(){
                     <div className="vehicle-history-nav">
                         <div>Last updated: {displayDate(updated_at)}</div>
                         <div>
-                            <button><i className="fa fa-edit" onClick={()=>handleEditingMode(elementId)}></i></button>
+                            <button><i className="fa fa-edit" onClick={()=>handleOpenCloseForm(elementId)}></i></button>
                             <button className="btnDelete"><i className="fa fa-trash"></i></button>
                         </div>
                     </div>
@@ -185,7 +186,27 @@ export default function VehicleHistory(){
             <header>
                 <h1>{vehicleObj.year} {vehicleObj.make} {vehicleObj.model} </h1>
                 <h2></h2>
+                <div className="section-buttons">
+                    <button onClick={(e)=>handleOpenCloseForm("add-form")} className="btn-hi"><i className="fa fa-plus "></i></button>
+                </div>
             </header>
+            <div id="add-form">
+                {
+                    formSelect ===  "add-form"
+                    ? <Suspense fallback={<div>Loading...</div>}>
+                        <VehicleHistoryForm 
+                            mode="add"
+                            closeMe={setFormSelect} 
+                            setVehicleHistoryObj={setVehicleHistoryObj} 
+                            categories={categories}
+                            historyList={vehicleObj.history_types_list}
+                            setVehicleObj={setVehicleObj}
+                        />
+                    </Suspense>
+                    : null
+                }
+                
+            </div>
             <div>
                 {vehicleHistoryObj.map(history=>vehicleHistoryItemTemplate(history))}
             </div>

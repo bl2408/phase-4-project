@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   get '/vehicles/:vehicle_id/history', to: "vehicle_history#index"
   get '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#show"
+  
+  post '/vehicles/:vehicle_id/history', to: "vehicle_history#create"
 
   put '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"
   patch '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#update"

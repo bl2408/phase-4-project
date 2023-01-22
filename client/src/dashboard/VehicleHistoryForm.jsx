@@ -5,13 +5,14 @@ import { ISODate } from "../appFns";
 import { v4 as uuid } from "uuid";
 
 
-export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj}){
+export default function VehicleHistoryForm({mode, closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj}){
     const { vehicleId } = useParams()
 
     const form = useRef()
     const [ categorySelect, setCategorySelect ] = useState("")
 
     useEffect(()=>{
+        if(mode === "add") {return;}
         form.current.odometer.value = items.odometer || ""
         form.current.description.value = items.description || ""
         form.current.itemDate.value = ISODate(items.date) || ""
@@ -22,8 +23,6 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
         }
 
     },[]);
-
-
 
     const handleSubmit= async e=>{
         e.preventDefault();
@@ -54,10 +53,9 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
                     }
                 }
             }
-            
 
-            const response = await fetch(`/api/vehicles/${vehicleId}/history/${items.id}`,{
-                method: "PATCH",
+            const response = await fetch(`/api/vehicles/${vehicleId}/history/${mode==="edit" ? items.id : ""}`,{
+                method: mode==="edit" ? "PATCH" : "POST",
                 headers:{
                     "Content-Type":"application/json"
                 },
@@ -72,11 +70,14 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
                 });
             }
 
-            setVehicleHistoryObj(state=>state.map(h=>h.id===items.id ? { ...data.data} : h));
-            if(categorySelect==="Other"){
-                setVehicleObj(state=>({...state, history_types_list: [...new Set([... state.history_types_list, otherNameValue])]}))
+            if (mode==="edit"){
+                setVehicleHistoryObj(state=>state.map(h=>h.id===items.id ? { ...data.data} : h));
+            }else{
+                setVehicleHistoryObj(state=>[...state, data.data])
             }
-
+            if(categorySelect==="Other"){
+                setVehicleObj(state=>({...state, history_types_list: [...new Set([...state.history_types_list, otherNameValue])]}))
+            }
             handleClose();
 
         }catch(err){
