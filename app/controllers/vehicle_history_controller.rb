@@ -35,18 +35,26 @@ class VehicleHistoryController < ApplicationController
         update_details = params.require(:vehicle_history).permit(:odometer, :description, :date, :category_id, 
             extras: [ other: [ :name ] ]
         )
-        update_details[:date] = Time.parse(update_details[:date]).getutc
 
+        update_details[:date] = Time.parse(update_details[:date]).getutc
+        
         ve_profile = VehicleProfile.find_by(id: @ve_id)
         ve_prof_hist_types = ve_profile.history_types_list
-
-        other_name = update_details[:extras][:other][:name]
-        if !!ve_prof_hist_types
-            ve_prof_hist_types.push(other_name) unless ve_prof_hist_types.include?(other_name)
-            ve_profile.update(history_types_list: ve_prof_hist_types)
-        else 
-            ve_profile.update(history_types_list: [ other_name ])
+        
+        other_name = !!update_details[:extras] ? update_details[:extras][:other][:name] : nil
+        if !!other_name
+            if !!ve_prof_hist_types
+                ve_prof_hist_types.push(other_name) unless ve_prof_hist_types.include?(other_name)
+                ve_profile.update(history_types_list: ve_prof_hist_types)
+            else 
+                ve_profile.update(history_types_list: [ other_name ])
+            end
+        else
+            hist.extras = nil
+            hist.save
         end
+
+
 
         hist.update(update_details)
 

@@ -142,7 +142,7 @@ export default function VehicleHistory(){
                     <div>{displayDate(date)}</div>
                     <div>
                         {
-                            category === "Other" 
+                            category === "Other" && !!extras
                             ? extras?.other?.name 
                             : category
                         }
@@ -190,13 +190,19 @@ export default function VehicleHistory(){
                 {vehicleHistoryObj.map(history=>vehicleHistoryItemTemplate(history))}
             </div>
             <div>
+                <div style={{textAlign:"center", marginBottom:"10px"}}>
+                    Showing {vehicleHistoryObj.length} out of {historyMeta?.total}
+                </div>
+
                 {
                     historyMeta?.nextLimit 
-                    ? <button onClick={()=>handleMoreHistory(historyMeta)}>More</button>
+                    ? <div style={{textAlign:"center"}}>
+                        <button onClick={()=>handleMoreHistory(historyMeta)}>More</button>
+                    </div>
                     : null
                 }
                 
-                Showing {vehicleHistoryObj.length} out of {historyMeta?.total}
+                
             </div>
         </div>
     );

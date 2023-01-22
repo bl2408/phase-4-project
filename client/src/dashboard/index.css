@@ -53,9 +53,10 @@ main{
     border-color: rgba(0,0,0,0);
     border-bottom-color: var(--shade9Color);
 }
-.vehicle-history-box, .vehicle-history-box > * { transition: all 0.5s linear;  }
+.vehicle-history-box, .vehicle-history-box > * { transition: all 0.4s ease-in-out;  }
 .vehicle-history-box.open{
     border-color: var(--shade9Color);
+    margin: 30px 0;
 }
 .vehicle-history-box > div:nth-child(2){
     max-height: 0;

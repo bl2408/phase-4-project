@@ -18,7 +18,7 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
         setCategorySelect(state=>items.category || "")
 
         if(items.category === "Other"){
-            form.current.otherName.value = items.extras.other.name || ""
+            form.current.otherName.value = items.extras?.other?.name || ""
         }
 
     },[]);
@@ -31,6 +31,7 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
         try{
 
             const cat = categories.find(c=>c.name === categorySelect);
+            let otherNameValue = ""
 
             const historySendData={
                 category_id: cat.id,
@@ -40,9 +41,16 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
             };
 
             if(categorySelect==="Other"){
-                historySendData.extras = {
-                    other: {
-                        name: form.current.otherName.value,
+
+                otherNameValue = form.current.otherName.value;
+                if(otherNameValue.length > 0){
+                    otherNameValue = otherNameValue.toLowerCase();
+                    otherNameValue = `${otherNameValue[0].toUpperCase()}${otherNameValue.slice(1)}`
+                    
+                    historySendData.extras = {
+                        other: {
+                            name: otherNameValue,
+                        }
                     }
                 }
             }
@@ -66,12 +74,13 @@ export default function VehicleHistoryForm({closeMe, setVehicleHistoryObj, items
 
             setVehicleHistoryObj(state=>state.map(h=>h.id===items.id ? { ...data.data} : h));
             if(categorySelect==="Other"){
-                setVehicleObj(state=>({...state, history_types_list: [...new Set([... state.history_types_list, form.current.otherName.value])]}))
+                setVehicleObj(state=>({...state, history_types_list: [...new Set([... state.history_types_list, otherNameValue])]}))
             }
 
             handleClose();
 
         }catch(err){
+            console.log(err)
             console.log(err.cause)
         }
     };
