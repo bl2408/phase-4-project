@@ -26,8 +26,16 @@ export default function Nav(){
 
     useEffect(()=>{
 
+        setShowDashButtons(state=>location.pathname === DASH_PATH || location.pathname === `${DASH_PATH}/`)
+
+        return ()=>{};
+
+    }, []);
+
+    useEffect(()=>{
+
         history.listen((location) => {
-            setShowDashButtons(state=>location.pathname === DASH_PATH)
+            setShowDashButtons(state=>location.pathname === DASH_PATH || location.pathname === `${DASH_PATH}/`)
         })
 
         return ()=>{};
