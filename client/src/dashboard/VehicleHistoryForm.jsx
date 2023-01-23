@@ -86,7 +86,15 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
                 });
             }
             if(categorySelect==="Other"){
-                setVehicleObj(state=>({...state, history_types_list: [...new Set([...state.history_types_list, otherNameValue])]}))
+                setVehicleObj(state=>{
+                    return {
+                        ...state,
+                        history_types_list: 
+                            state.history_types_list === null 
+                            ? [ otherNameValue ] 
+                            : [...new Set([... state.history_types_list, otherNameValue])] 
+                    }
+                })
             }
             handleClose();
 

@@ -36,8 +36,8 @@ export default function VehicleHistory(){
             }
 
             setVehicleObj(state=>{
-                const {make, model, year, odometer, body, other, type, history_types_list } = responseData.data.attributes
-                return {make, model, year, odometer, body, other, type, history_types_list }
+                const {make, model, year, odometer, body, other, vehicle_type, history_types_list } = responseData.data.attributes
+                return {make, model, year, odometer, body, other, vehicle_type, history_types_list }
             });
 
             const historyData = responseData.data.attributes.history;
