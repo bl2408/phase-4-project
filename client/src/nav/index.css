@@ -6,8 +6,8 @@ nav.navMain{
 
 nav.navMain > div{
     display: flex;
-    justify-content: flex-end;
     gap: 10px;
+    justify-content: flex-end;
 }
 
 nav.navMain button{
