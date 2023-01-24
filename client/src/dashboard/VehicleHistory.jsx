@@ -214,7 +214,6 @@ export default function VehicleHistory(){
             <div id={elementId} key={elementId} className="vehicle-history-box" style={formSelect ===  elementId ? {maxHeight: "1000px"}  : null}>
                 <div onClick={(e)=>handleHistoryItemOpen(e, elementId)} className="vehicle-item vehicle-history-item">
                     <div className="icon"><i className={CATEGORIES[category].icon}></i></div>
-                    <div>{displayDate(date)}</div>
                     <div>
                         {
                             category === "Other" && !!extras
@@ -222,7 +221,8 @@ export default function VehicleHistory(){
                             : category
                         }
                     </div>
-                    <div>{odometer}</div>
+                    <div>{displayDate(date)}</div>
+                    <div>{odometer}km</div>
                 </div>
                 <div>
                     <div>
