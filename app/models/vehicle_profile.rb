@@ -4,6 +4,7 @@ class VehicleProfile < ApplicationRecord
 
   validates :make, presence: true
   validates :model, presence: true
-  validates :year, presence: true
+  validates :year, presence: true, numericality: { only_numeric: true }
+  validates :odometer, numericality: { only_numeric: true }
 
 end
