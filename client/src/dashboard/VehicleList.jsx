@@ -38,7 +38,6 @@ export default function VehicleList(){
 
     const handleDelete = async (e, id, vehicleTitle)=>{
         e.stopPropagation();
-        console.log(id)
 
         if(!window.confirm(`Deleting vehicle:\n"${vehicleTitle}."\nAre you sure?`)){ return; }
 
@@ -51,6 +50,12 @@ export default function VehicleList(){
 
     };
 
+    const handleEdit=(e, id)=>{
+        e.stopPropagation();
+
+        history.push(`${DASH_PATH}/vehicles/${id}/edit`)
+    };
+
 
     const vehicleTemplate = ({id, make, model, odometer, type, year})=>{
         return (
@@ -58,8 +63,10 @@ export default function VehicleList(){
                 
                 <div>{year}</div>
                 <div>{make} {model}</div>
-                <div>
-                    <a href="#/" onClick={(e)=>handleDelete(e, id, `${year} ${make} ${model}`)}><i className="fa fa-trash"></i></a>
+                <div></div>
+                <div className="vehicle-list-buttons">
+                    <a onClick={e=>handleEdit(e,id)}><i className="fa fa-edit"></i></a>
+                    <a href="#/" onClick={e=>handleDelete(e, id, `${year} ${make} ${model}`)}><i className="fa fa-trash"></i></a>
                 </div>
                 
 

@@ -36,11 +36,29 @@ main{
     color: var(--highlight3Color)
 }
 
+.vehicle-list-buttons a{
+    padding: 8px;
+}
+
+.vehicle-list-buttons a, .vehicle-list-buttons a:active, .vehicle-list-buttons a:visited{
+    color: var(--highlight3Color);
+}
+
+.vehicle-list-buttons a:hover{
+    color: var(--highlight1Color);
+}
+
+.vehicle-list-buttons{
+    gap: 6px;
+    background-color: var(--shade8Color);
+    padding: 0 20px;
+}
+
 .vehicle-list-item:hover{
     cursor: pointer;
 }
 .vehicle-list-item{
-    grid-template-columns: 70px max-content max-content;
+    grid-template-columns: 70px max-content 1fr max-content;
     border-radius: 10px;
 }
 

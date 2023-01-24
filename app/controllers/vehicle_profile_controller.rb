@@ -12,12 +12,14 @@ class VehicleProfileController < ApplicationController
     end
 
     def create
-
-        pp vehicle_params
-
         @user.vehicle_profiles.create!( vehicle_params)
-
         render json: { success: true }, status: :created
+    end
+
+    def update
+        ve = VehicleProfile.find_by(id: params[:vehicle_id])
+        ve.update!(vehicle_params)
+        render json: { success: true }, status: :ok
     end
 
     def destroy 

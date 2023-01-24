@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get '/vehicles/:id', to: "vehicle_profile#show"
   
   post '/vehicles', to: "vehicle_profile#create"
+  put '/vehicles/:vehicle_id', to: "vehicle_profile#update"
+  patch '/vehicles/:vehicle_id', to: "vehicle_profile#update"
   delete '/vehicles/:vehicle_id', to: "vehicle_profile#destroy"
 
   get '/vehicles/:vehicle_id/history', to: "vehicle_history#index"

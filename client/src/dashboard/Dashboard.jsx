@@ -29,6 +29,13 @@ export default function Dashboard(){
                         <VehicleHistory />
                     </Suspense>
                 </Route>
+
+                <Route exact path={`${DASH_PATH}/vehicles/:vehicleId/edit`}>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <VehicleForm />
+                    </Suspense>
+                </Route>
+
             </Switch>
             
   
