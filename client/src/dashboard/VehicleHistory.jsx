@@ -208,7 +208,7 @@ export default function VehicleHistory(){
 
     const vehicleHistoryItemTemplate = (history)=>{
         const { id } = history
-        const { category, date, description, odometer, updated_at, extras } = history.attributes
+        const { category, date, description, odometer, updated_at, extras, tags } = history.attributes
         const elementId = `vhi-${id}`
         return (
             <div id={elementId} key={elementId} className="vehicle-history-box" style={formSelect ===  elementId ? {maxHeight: "1000px"}  : null}>
@@ -234,7 +234,7 @@ export default function VehicleHistory(){
                                     mode="edit"
                                     closeMe={setFormSelect} 
                                     setVehicleHistoryObj={setVehicleHistoryObj} 
-                                    items={{id, category, date, description, odometer, extras}} 
+                                    items={{id, category, date, description, odometer, extras, tags}} 
                                     categories={categories}
                                     historyList={vehicleObj.history_types_list}
                                     setVehicleObj={setVehicleObj}

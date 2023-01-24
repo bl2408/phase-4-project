@@ -13,10 +13,14 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
 
     useEffect(()=>{
         if(mode === "add") {return;}
+
         form.current.odometer.value = items.odometer || ""
         form.current.description.value = items.description || ""
         form.current.itemDate.value = ISODate(items.date) || ""
         setCategorySelect(state=>items.category || "")
+
+        form.current.tags.value = items.tags.map(tag=>tag.name).join(" ")
+
 
         if(items.category === "Other"){
             form.current.otherName.value = items.extras?.other?.name || ""
@@ -32,12 +36,20 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
             const cat = categories.find(c=>c.name === categorySelect);
             let otherNameValue = ""
 
+            
+
             const historySendData={
                 category_id: cat.id,
                 date: form.current.itemDate.value,
                 description: form.current.description.value,
                 odometer: form.current.odometer.value
             };
+
+            // let getTags = []
+            if(form.current.tags.value.length > 0){
+                // getTags = 
+                historySendData.tags = form.current.tags.value.split(" ");
+            }
 
             if(categorySelect==="Other"){
 
@@ -140,6 +152,11 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
                 <label>
                     Date
                     <input type="datetime-local" name="itemDate" />
+                </label>
+
+                <label>
+                    Tags (Seperated by spaces)
+                    <input type="text" name="tags" />
                 </label>
 
                 <div className="section-buttons">

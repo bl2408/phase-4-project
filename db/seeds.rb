@@ -29,18 +29,28 @@ vhc2 = VehicleHistoryCategory.create(name: "Upgrade", description: "Replaced par
 VehicleHistoryCategory.create(name: "Repair", description: "Fixed an item on vehicle")
 VehicleHistoryCategory.create(name: "Other", description: "Custom property")
 
+#tags
+tag1 = Tag.create(name: "Important")
+tag2 = Tag.create(name: "Milestone")
+Tag.create(name: "Purchase")
+
+
 
 #  User account 1
 ua1 = UserAccount.create(first_name: "brian", last_name: "lambert")
 ul1= UserLoginDatum.create(user_account: ua1, email: "brian@email.com", login_name: "brian", password: "password123")
 
 #  vehicle profile 1
-vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", year: "1996")
+vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", year: "1996", odometer: 100)
+
 # Vehicle history 1
-VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time)
+vh1 = VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time, odometer: 200)
+
+HistoryTag.create(vehicle_history: vh1, tag: tag1)
+HistoryTag.create(vehicle_history: vh1, tag: tag2)
 
 11.times do |i|
-    VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time)
+    VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time, odometer: 2000)
 end
 
 
@@ -49,13 +59,13 @@ ua2 = UserAccount.create(first_name: "robert", last_name: "lambert")
 ul2= UserLoginDatum.create(user_account: ua2, email: "robert@email.com", login_name: "robert", password: "password123")
 
 #  vehicle profile 1
-vp2 = VehicleProfile.create(user_account: ua2, make: "Nissan", model: "R34 Skyline", year: "1998")
+vp2 = VehicleProfile.create(user_account: ua2, make: "Nissan", model: "R34 Skyline", year: "1998", odometer: 2000)
 # Vehicle history 1
-VehicleHistory.create(vehicle_profile: vp2, category: vhc2, description: "New exhaust", date: current_time)
+VehicleHistory.create(vehicle_profile: vp2, category: vhc2, description: "New exhaust", date: current_time, odometer: 3000)
 
 
 
 #  vehicle profile 1
-vp1 = VehicleProfile.create(user_account: ua1, make: "Toyota", model: "Supra", year: "1994")
+vp1 = VehicleProfile.create(user_account: ua1, make: "Toyota", model: "Supra", year: "1994", odometer:10000)
 
 pp "SEEDING FINISHED"

@@ -33,19 +33,24 @@ class VehicleHistoryController < ApplicationController
     def create 
         details = history_params
         details[:vehicle_profile] = @ve_prof
-        hist = VehicleHistory.create!(details)
-        insert_extras_profile hist
-        render json: hist, status: :ok
+        @hist = VehicleHistory.create!(details)
+
+        set_tags
+
+        insert_extras_profile
+        render json: @hist, status: :ok
     end
 
     def update
-        hist = VehicleHistory.find_by(id: params[:id])
+        @hist = VehicleHistory.find_by(id: params[:id])
 
-        insert_extras_profile hist
+        set_tags
 
-        hist.update(history_params)
+        insert_extras_profile
 
-        render json: hist, status: :ok
+        @hist.update(history_params)
+
+        render json: @hist, status: :ok
     end
 
     def destroy
@@ -56,7 +61,24 @@ class VehicleHistoryController < ApplicationController
 
     private 
 
-    def insert_extras_profile hist
+    def set_tags
+        if params[:tags]
+            # find and add tags
+            params[:tags].map do |tag|
+                tag = Tag.find_or_create_by(name: tag)
+                HistoryTag.find_or_create_by(tag: tag, vehicle_history: @hist)
+            end
+
+            # remove tags
+            @hist.tags.map do |hist_tag|
+                @hist.history_tags.find_by(tag: hist_tag).destroy unless params[:tags].include? hist_tag.name
+            end
+        else
+            @hist.history_tags.destroy_all
+        end
+    end
+
+    def insert_extras_profile
         ve_prof_hist_types = @ve_prof.history_types_list
 
         update_details = history_params
@@ -70,9 +92,9 @@ class VehicleHistoryController < ApplicationController
                 @ve_prof.update(history_types_list: [ other_name ])
             end
         else
-            if !!hist
-                hist.extras = nil
-                hist.save
+            if !!@hist
+                @hist.extras = nil
+                @hist.save
             end
         end
 
