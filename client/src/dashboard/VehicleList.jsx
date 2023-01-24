@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { fetchVehiclesList } from "../reducers/vehiclesSlice";
+import { fetchVehiclesList, deleteVehicleById } from "../reducers/vehiclesSlice";
 
 import { DASH_PATH } from "../appconstants"
 
@@ -36,12 +36,31 @@ export default function VehicleList(){
         history.push(`${DASH_PATH}/vehicles/${id}`);
     };
 
+    const handleDelete = async (e, id, vehicleTitle)=>{
+        e.stopPropagation();
+        console.log(id)
+
+        if(!window.confirm(`Deleting vehicle:\n"${vehicleTitle}."\nAre you sure?`)){ return; }
+
+        try{
+            dispatch(deleteVehicleById(id)).unwrap()
+        }catch(err){
+            console.log(err)
+            console.log(err.cause)
+        }
+
+    };
+
+
     const vehicleTemplate = ({id, make, model, odometer, type, year})=>{
         return (
             <div className="bg sh7 shadow vehicle-item vehicle-list-item" key={uuid()} onClick={()=>handleVehicleClick(id)}>
                 
                 <div>{year}</div>
                 <div>{make} {model}</div>
+                <div>
+                    <a href="#/" onClick={(e)=>handleDelete(e, id, `${year} ${make} ${model}`)}><i className="fa fa-trash"></i></a>
+                </div>
                 
 
                 {/* {id} -   {odometer} */}

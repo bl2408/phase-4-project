@@ -14,12 +14,30 @@ export const fetchVehiclesList = createAsyncThunk('vehicles/fetchVehiclesList', 
 	return data;
 });
 
+//delete vehicle by id
+export const deleteVehicleById = createAsyncThunk('vehicles/deleteVehicleById', async (id, { rejectWithValue }) => {
+	
+	const response = await fetch(`/api/vehicles/${id}`,{
+		method:"DELETE",
+		headers:{
+			"Content-Type": "application/json"
+		}
+	});
+
+	if(!response.ok){
+		const data = await response.json()
+		return rejectWithValue(data.errors)
+	}
+
+	return { success: true, id };
+});
+
 
 export const vehiclesSlice = createSlice({
 	name: 'vehiclesList',
 	initialState,
 	// reducers:{
-	// 	updateHistoryById:(state,action)=>{
+	// 	deleteVehicleById:(state,action)=>{
 	// 		const { id } = action.payload
 	// 		console.log(state.items)
 	// 		console.log(state.items.find(item=>item.id === id))
@@ -30,6 +48,9 @@ export const vehiclesSlice = createSlice({
 			state.items = [
                 ...action.payload.data
             ]
+		}),
+		builder.addCase(deleteVehicleById.fulfilled, (state, action) => {
+			state.items = state.items.filter(item=>item.id !== action.payload.id)
 		})
     }
 });

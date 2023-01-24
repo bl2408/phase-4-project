@@ -18,9 +18,12 @@ class VehicleProfileController < ApplicationController
         @user.vehicle_profiles.create!( vehicle_params)
 
         render json: { success: true }, status: :created
+    end
 
-        # @User.vehicle_profile
-
+    def destroy 
+        ve = VehicleProfile.find_by(id: params[:vehicle_id])
+        ve.destroy
+        head :no_content
     end
 
     def categories
