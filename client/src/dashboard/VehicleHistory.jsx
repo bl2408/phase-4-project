@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { displayDate, formatOdometer } from "../appFns";
 import { v4 as uuid } from 'uuid';
@@ -8,6 +8,7 @@ import "./index.css"
 import { CATEGORIES } from "../appconstants";
 import { fetchCategoriesList } from "../reducers/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
+import Tag from "./Tag";
 
 const VehicleHistoryForm =  lazy(()=>import("./VehicleHistoryForm"));
 
@@ -22,6 +23,8 @@ export default function VehicleHistory(){
     const dispatch = useDispatch();
     
     const [ formSelect, setFormSelect ] = useState("");
+    const sortDateSelect = useRef()
+
     const getVehicleById = async()=>{
         try{
 
@@ -36,18 +39,15 @@ export default function VehicleHistory(){
             }
 
             setVehicleObj(state=>{
-                const {make, model, year, odometer, body, other, vehicle_type, history_types_list } = responseData.data.attributes
-                return {make, model, year, odometer, body, other, vehicle_type, history_types_list }
+                const {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list } = responseData.data.attributes
+                return {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list }
             });
 
             const historyData = responseData.data.attributes.history;
 
             setVehicleHistoryObj(state=>historyData.data);
 
-            setHistoryMeta(state=>({
-                ...historyData.meta,
-                ...calculateHistoryMeta(historyData.meta)
-            }))
+            updateHistoryMeta(historyData)
             
         }catch(err){
 
@@ -78,29 +78,10 @@ export default function VehicleHistory(){
     };
 
     const handleMoreHistory =async({nextOffset:offset, nextLimit:limit, order})=>{
-
-        const queryParams = new URLSearchParams({
-            offset, limit, order
-        });
-
         try{
-            const response = await fetch(`/api/vehicles/${vehicleId}/history${queryParams ? `?${queryParams.toString()}` : ""}`);
-
-            const responseData = await response.json();
-
-            if(!response.ok){
-                throw new Error("Server error", {
-                    cause: responseData.errors
-                });
-            }
-
-
+            const responseData = await fetchHistoryWithParams({offset, limit, order})
             setVehicleHistoryObj(state=>[...state, ...responseData.data]);
-
-            setHistoryMeta(state=>({
-                ...responseData.meta,
-                ...calculateHistoryMeta(responseData.meta)
-            }))
+            updateHistoryMeta(responseData)
         }catch(err){
             console.log(err)
             console.log(err.cause)
@@ -108,36 +89,59 @@ export default function VehicleHistory(){
 
     };
 
-    const handleHistoryOrderChange =async(order)=>{
+    const handleHistoryOrderChange =async()=>{
 
-        const queryParams = new URLSearchParams({
-            offset:0,
-            limit: 10,
-            order,
-        });
+        const order = sortDateSelect.current.value
 
         try{
-            const response = await fetch(`/api/vehicles/${vehicleId}/history${queryParams ? `?${queryParams.toString()}` : ""}`);
-
-            const responseData = await response.json();
-
-            if(!response.ok){
-                throw new Error("Server error", {
-                    cause: responseData.errors
-                });
-            }
-
+            const responseData = await fetchHistoryWithParams({order})
 
             setVehicleHistoryObj(state=>[...responseData.data]);
 
-            setHistoryMeta(state=>({
-                ...responseData.meta,
-                ...calculateHistoryMeta(responseData.meta)
-            }))
+            updateHistoryMeta(responseData)
         }catch(err){
             console.log(err)
             console.log(err.cause)
         }
+
+    };
+
+    const updateHistoryMeta=({meta})=>{
+        setHistoryMeta(state=>({
+            ...meta,
+            ...calculateHistoryMeta(meta)
+        }))
+    };
+
+    const fetchHistoryWithParams = async ({offset, limit, order, tag=null})=>{
+
+        const queryObj = {
+            offset: offset ? offset : 0,
+            limit: limit ? limit : 10,
+            order: order ? order : "DESC",
+        }
+
+        if(tag){
+            queryObj.tag = tag
+        }else{
+            if(historyMeta.tag){
+                queryObj.tag = historyMeta.tag
+            }
+        }
+
+        const queryParams = new URLSearchParams(queryObj);
+
+        const response = await fetch(`/api/vehicles/${vehicleId}/history${queryParams ? `?${queryParams.toString()}` : ""}`);
+
+        const responseData = await response.json();
+
+        if(!response.ok){
+            throw new Error("Server error", {
+                cause: responseData.errors
+            });
+        }
+
+        return responseData
 
     };
 
@@ -232,7 +236,8 @@ export default function VehicleHistory(){
                             tags.length > 0 
                             ? <div style={{marginTop: "10px"}}>
                                 {tags.map(tag=>(
-                                    <span className="vtag" key={`tag-${tag.name}`}>#{tag.name}</span>
+                                    <Tag onClick={()=>handleTagClick(tag.name)} key={`tag-${uuid()}`} name={tag.name}/>
+                                    
                                 ))}
                             </div>
                             : null
@@ -288,6 +293,41 @@ export default function VehicleHistory(){
 
     };
 
+    const displayTagsList = ()=>{
+        if (!vehicleObj.tags_list || JSON.stringify(vehicleObj.tags_list) === '{}'){ return null;}
+
+        const tags = [];
+
+
+        for(const [tag, count] of Object.entries(vehicleObj.tags_list)){
+            tags.push(<Tag onClick={()=>handleTagClick(tag)} key={`tag-${uuid()}`} name={`${tag} (${count})`}/>)
+        }
+
+        return tags
+ 
+    };
+
+    const handleTagClick = async (tag)=>{
+
+        try{
+            const responseData = await fetchHistoryWithParams({tag: tag})
+            setVehicleHistoryObj(state=>[...responseData.data]);
+            updateHistoryMeta(responseData)
+
+        }catch(err){
+            console.log(err)
+            console.log(err.cause)
+        }
+
+    }
+
+    const handleResetHistory = ()=>{
+
+        getVehicleById();
+        sortDateSelect.current.value = "DESC"
+
+    };
+
     return (
         <div className="window bg sh7 shadow">
             <header>
@@ -296,12 +336,18 @@ export default function VehicleHistory(){
                 <div className="section-buttons">
                     <div>
                         Date: &ensp;
-                        <select onChange={e=>handleHistoryOrderChange(e.target.value)}>
+                        <select ref={sortDateSelect} onChange={e=>handleHistoryOrderChange(e)}>
                             <option value="DESC">Descending</option>
                             <option value="ASC">Ascending</option>
                         </select>
                     </div>
                     <button onClick={(e)=>handleOpenCloseForm("add-form")} className="btn-hi"><i className="fa fa-plus "></i></button>
+                    <button onClick={handleResetHistory}><i className="fa fa-history "></i></button>
+                </div>
+                <div>
+                    {
+                        displayTagsList()
+                    }
                 </div>
             </header>
             <div id="add-form">

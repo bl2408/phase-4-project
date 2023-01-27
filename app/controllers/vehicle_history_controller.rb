@@ -6,6 +6,7 @@ class VehicleHistoryController < ApplicationController
         params[:offset] ||= 0
         params[:limit] ||= 10
         params[:order] ||= ""
+        params[:tag] ||= nil
 
         order = 'DESC' # default
         params[:order] = params[:order].upcase if params[:order].to_s #if string then upcase
@@ -16,10 +17,22 @@ class VehicleHistoryController < ApplicationController
         offset = check_int_set_int_param(0, params[:offset], 0, 30)
 
         query = VehicleHistory.all.where(vehicle_profile_id: @ve_prof)
+
+        if params[:tag] != nil
+            query = query.joins(:tags).merge(Tag.where(name: params[:tag]))
+        end
+
         res = query.limit(limit).offset(offset)
 
         render json: res.order("date #{order.upcase}"), status: :ok, 
-        meta: { total: query.count, count: res.size, offset: offset, limit: limit, order: order}
+        meta: { 
+            total: query.count, 
+            count: res.size, 
+            offset: offset, 
+            limit: limit, 
+            order: order,
+            tag: params[:tag]
+        }
 
     end
 

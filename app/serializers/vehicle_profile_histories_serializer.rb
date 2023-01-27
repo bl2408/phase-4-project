@@ -15,7 +15,8 @@ class VehicleProfileHistoriesSerializer < ActiveModel::Serializer
           total: his.count,
           offset: 0,
           limit: 10,
-          order: "DESC"
+          order: "DESC",
+          tag: nil
         }
       }
     hash
