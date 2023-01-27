@@ -226,7 +226,18 @@ export default function VehicleHistory(){
                 </div>
                 <div>
                     <div>
-                        {description}   
+                        {description}
+
+                        {
+                            tags.length > 0 
+                            ? <div style={{marginTop: "10px"}}>
+                                {tags.map(tag=>(
+                                    <span className="vtag" key={`tag-${tag.name}`}>#{tag.name}</span>
+                                ))}
+                            </div>
+                            : null
+                        }
+
                         {
                             formSelect ===  elementId 
                             ?<Suspense fallback={<div>Loading...</div>}>
