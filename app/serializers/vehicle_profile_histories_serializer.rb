@@ -1,7 +1,6 @@
 class VehicleProfileHistoriesSerializer < ActiveModel::Serializer
   # has_many :vehicle_histories, key: :history, serializer: VehicleHistorySerializer
-  attributes :id, :make, :model, :year, :body, :odometer, :vehicle_type, :other, :history_types_list
-
+  attributes :id, :make, :model, :year, :body, :odometer, :vehicle_type, :other, :history_types_list, :tags_list
 
   def attributes(*args)
     hash = super
