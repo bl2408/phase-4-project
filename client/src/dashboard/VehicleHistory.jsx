@@ -353,6 +353,11 @@ export default function VehicleHistory(){
                 <h2>Odometer:</h2>
                 <span style={{fontWeight:"bold"}}>{formatOdometer(vehicleObj?.odometer)}</span> (start)&nbsp;|&nbsp; 
                 <span style={{fontWeight:"bold"}}>{formatOdometer(vehicleObj?.calculated_odometer)}</span> (calculated)
+                <div className="tags-view">
+                    {
+                        displayTagsList()
+                    }
+                </div>
                 <div className="section-buttons">
                     <div>
                         Date: &ensp;
@@ -362,12 +367,7 @@ export default function VehicleHistory(){
                         </select>
                     </div>
                     <button onClick={(e)=>handleOpenCloseForm("add-form")} className="btn-hi"><i className="fa fa-plus "></i></button>
-                    <button onClick={handleResetHistory}><i className="fa fa-history "></i></button>
-                </div>
-                <div className="tags-view">
-                    {
-                        displayTagsList()
-                    }
+                    <button onClick={handleResetHistory}>Reset</button>
                 </div>
             </header>
             <div id="add-form">
