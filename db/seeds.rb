@@ -9,13 +9,13 @@
 
 require 'date'
 
-@t = Time.current - 5.hours
+@t = Time.current - 1.months
 
 pp DateTime.now
 pp @t
 
 def current_time
-    @t = @t + rand(10).minutes
+    @t = @t + rand(10).minutes + rand(3).days
     @t.strftime "%Y-%m-%d %H:%M"
 end
 
@@ -26,13 +26,14 @@ pp "SEEDING"
 # vehicle history categories
 vhc1 = VehicleHistoryCategory.create(name: "Service", description: "Regular maintainence/servicing")
 vhc2 = VehicleHistoryCategory.create(name: "Upgrade", description: "Replaced part with better quality/performance part")
-VehicleHistoryCategory.create(name: "Repair", description: "Fixed an item on vehicle")
-VehicleHistoryCategory.create(name: "Other", description: "Custom property")
+vhc3 = VehicleHistoryCategory.create(name: "Repair", description: "Fixed an item on vehicle")
+vhc4 = VehicleHistoryCategory.create(name: "Other", description: "Custom property")
 
 #tags
 tag1 = Tag.create(name: "Important")
 tag2 = Tag.create(name: "Milestone")
-Tag.create(name: "Purchase")
+tag3 = Tag.create(name: "Purchase")
+tag4 = Tag.create(name: "Noise")
 
 
 
@@ -44,14 +45,97 @@ ul1= UserLoginDatum.create(user_account: ua1, email: "brian@email.com", login_na
 vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", year: "1996", odometer: 100)
 
 # Vehicle history 1
-vh1 = VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time, odometer: 200)
+vh1 = VehicleHistory.create(vehicle_profile: vp1, category: vhc4, description: "Purchased car", date: current_time, odometer: 100000)
 
 HistoryTag.create(vehicle_history: vh1, tag: tag1)
 HistoryTag.create(vehicle_history: vh1, tag: tag2)
+HistoryTag.create(vehicle_history: vh1, tag: tag3)
 
-11.times do |i|
-    VehicleHistory.create(vehicle_profile: vp1, category: vhc1, description: "General checkup, topped up fluids", date: current_time, odometer: 2000)
-end
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc1, 
+    description: "General checkup, topped up fluids", 
+    date: current_time, 
+    odometer: 100000
+)
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc2, 
+    description: "Installed new exhaust", 
+    date: current_time, 
+    odometer: 100500
+)
+vh2 = VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc3, 
+    description: "Fixed damage on front driver's side quarter panel", 
+    date: current_time, 
+    odometer: 101000
+)
+HistoryTag.create(vehicle_history: vh2, tag: tag1)
+vh3 = VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc4, 
+    description: "Heard noise coming from rear subframe", 
+    date: current_time, 
+    odometer: 102000
+)
+HistoryTag.create(vehicle_history: vh3, tag: tag4)
+
+vh4 = VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc4, 
+    description: "Noise from rear subframe getting louder", 
+    date: current_time, 
+    odometer: 103000
+)
+HistoryTag.create(vehicle_history: vh4, tag: tag4)
+
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc3, 
+    description: "Installed new rear subframe bushes", 
+    date: current_time, 
+    odometer: 104000
+)
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc2, 
+    description: "New rims", 
+    date: current_time, 
+    odometer: 104000
+)
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc2, 
+    description: "New wheel nuts", 
+    date: current_time, 
+    odometer: 104000
+)
+vh5 = VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc1, 
+    description: "Full service of fluids and brake pads", 
+    date: current_time, 
+    odometer: 110000
+)
+HistoryTag.create(vehicle_history: vh5, tag: tag1)
+HistoryTag.create(vehicle_history: vh5, tag: tag2)
+
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc3, 
+    description: "Fixed broken headlight", 
+    date: current_time, 
+    odometer: 114000
+)
+VehicleHistory.create(
+    vehicle_profile: vp1, 
+    category: vhc2, 
+    description: "New coilovers", 
+    date: current_time, 
+    odometer: 115000
+)
 
 
 #  User account 2
