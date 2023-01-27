@@ -234,7 +234,7 @@ export default function VehicleHistory(){
 
                         {
                             tags.length > 0 
-                            ? <div style={{marginTop: "10px"}}>
+                            ? <div className="tags-view">
                                 {tags.map(tag=>(
                                     <Tag onClick={()=>handleTagClick(tag.name)} key={`tag-${uuid()}`} name={tag.name}/>
                                     
@@ -344,7 +344,7 @@ export default function VehicleHistory(){
                     <button onClick={(e)=>handleOpenCloseForm("add-form")} className="btn-hi"><i className="fa fa-plus "></i></button>
                     <button onClick={handleResetHistory}><i className="fa fa-history "></i></button>
                 </div>
-                <div>
+                <div className="tags-view">
                     {
                         displayTagsList()
                     }

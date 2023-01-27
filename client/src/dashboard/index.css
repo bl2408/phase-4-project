@@ -126,12 +126,22 @@ main{
 
 .vtag{
     display: inline-block;
-    background-color: var(--shade10Color);
-    color: var(--shade8Color);
-    padding: 6px 10px;
-    margin: 0 2px;
+    background-color: var(--shade8Color);
+    color: var(--shade2Color);
+    padding: 6px 15px;
     cursor: pointer;
     border-radius: 20px;
     font-size: 1.4rem;
+}
+
+.vtag:hover{
+    background-color: var(--highlight3Color);
+}
+
+.tags-view{
+    margin: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    gap:5px;
 }
 
