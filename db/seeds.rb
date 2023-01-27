@@ -42,7 +42,7 @@ ua1 = UserAccount.create(first_name: "brian", last_name: "lambert")
 ul1= UserLoginDatum.create(user_account: ua1, email: "brian@email.com", login_name: "brian", password: "password123")
 
 #  vehicle profile 1
-vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", year: "1996", odometer: 100)
+vp1 = VehicleProfile.create(user_account: ua1, make: "Nissan", model: "180sx", year: "1996", odometer: 100, body: "coupe", vehicle_type:"vehicle")
 
 # Vehicle history 1
 vh1 = VehicleHistory.create(vehicle_profile: vp1, category: vhc4, description: "Purchased car", date: current_time, odometer: 100000)
@@ -143,13 +143,13 @@ ua2 = UserAccount.create(first_name: "robert", last_name: "lambert")
 ul2= UserLoginDatum.create(user_account: ua2, email: "robert@email.com", login_name: "robert", password: "password123")
 
 #  vehicle profile 1
-vp2 = VehicleProfile.create(user_account: ua2, make: "Nissan", model: "R34 Skyline", year: "1998", odometer: 2000)
+vp2 = VehicleProfile.create(user_account: ua2, make: "Nissan", model: "R34 Skyline", year: "1998", odometer: 2000, body: "coupe", vehicle_type:"vehicle")
 # Vehicle history 1
 VehicleHistory.create(vehicle_profile: vp2, category: vhc2, description: "New exhaust", date: current_time, odometer: 3000)
 
 
 
 #  vehicle profile 1
-vp1 = VehicleProfile.create(user_account: ua1, make: "Toyota", model: "Supra", year: "1994", odometer:10000)
+vp1 = VehicleProfile.create(user_account: ua1, make: "Toyota", model: "Supra", year: "1994", odometer:10000, body: "coupe", vehicle_type:"vehicle")
 
 pp "SEEDING FINISHED"

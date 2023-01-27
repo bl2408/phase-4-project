@@ -218,7 +218,13 @@ export default function VehicleHistory(){
                 updatedTags = await updatedTagsResponse.json()
             }
 
-            setVehicleObj(state=>({...state, tags_list: { ...updatedTags } }))
+            const updatedOdoResponse = await fetch(`/api/vehicles/${vehicleId}/odo`);
+            let updatedOdo = {};
+            if(updatedOdoResponse.ok){
+                updatedOdo = await updatedOdoResponse.json()
+            }
+
+            setVehicleObj(state=>({...state, ...updatedOdo, tags_list: { ...updatedTags } }))
 
         }catch(err){
             console.log(err)

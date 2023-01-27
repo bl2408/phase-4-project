@@ -1,6 +1,6 @@
 class VehicleProfileController < ApplicationController
 
-    before_action :get_ve_prof, only: [:create, :update, :get_updated_tags]
+    before_action :get_ve_prof, only: [:update, :get_updated_tags, :get_updated_odo, :destroy]
 
     def index
         render json: @user.vehicle_profiles, each_serializer: VehicleProfileSerializer, status: :ok
@@ -34,6 +34,10 @@ class VehicleProfileController < ApplicationController
 
     def get_updated_tags
         render json: @ve_prof.tags_list, status: :ok
+    end
+
+    def get_updated_odo
+        render json: {calculated_odometer: @ve_prof.calculated_odometer}, status: :ok
     end
 
     private

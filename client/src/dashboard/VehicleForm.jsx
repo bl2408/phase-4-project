@@ -93,7 +93,7 @@ export default function VehicleForm(){
                 throw new Error("Server error") 
             }
 
-        }catch(err){
+        }catch(err){``
             console.log(err)
             console.log(err.cause)
         }

@@ -107,10 +107,15 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
             const veObj = {}
 
             if(categorySelect==="Other"){
-                veObj.history_types_list = 
-                    vehicleObj.history_types_list === null 
-                        ? [ otherNameValue ] 
-                        : [...new Set([... vehicleObj.history_types_list, otherNameValue])] 
+                if(!!vehicleObj?.history_types_list){
+                    veObj.history_types_list =[...new Set([...vehicleObj.history_types_list, otherNameValue])] 
+                }else{
+                    veObj.history_types_list = [ otherNameValue ] 
+                }
+                // veObj.history_types_list = 
+                //     vehicleObj?.history_types_list === null 
+                //         ? [ otherNameValue ] 
+                //         : [...new Set([...vehicleObj.history_types_list, otherNameValue])] 
             }
 
             const updatedTagsResponse = await fetch(`/api/vehicles/${vehicleId}/tags`);
@@ -118,8 +123,14 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
             if(updatedTagsResponse.ok){
                 updatedTags = await updatedTagsResponse.json()
             }
+
+            const updatedOdoResponse = await fetch(`/api/vehicles/${vehicleId}/odo`);
+            let updatedOdo = {};
+            if(updatedOdoResponse.ok){
+                updatedOdo = await updatedOdoResponse.json()
+            }
             
-            setVehicleObj(state=>({...state, ...veObj, tags_list: { ...updatedTags } }))
+            setVehicleObj(state=>({...state, ...veObj, ...updatedOdo, tags_list: { ...updatedTags } }))
             
 
             handleClose();

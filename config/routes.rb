@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   delete '/vehicles/:vehicle_id', to: "vehicle_profile#destroy"
   
   get '/vehicles/:vehicle_id/tags', to: "vehicle_profile#get_updated_tags"
+  get '/vehicles/:vehicle_id/odo', to: "vehicle_profile#get_updated_odo"
 
   get '/vehicles/:vehicle_id/history', to: "vehicle_history#index"
   get '/vehicles/:vehicle_id/history/:id', to: "vehicle_history#show"
