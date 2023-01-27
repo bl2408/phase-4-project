@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { displayDate } from "../appFns";
+import { displayDate, formatOdometer } from "../appFns";
 import { v4 as uuid } from 'uuid';
 
 import "./index.css"
@@ -222,7 +222,7 @@ export default function VehicleHistory(){
                         }
                     </div>
                     <div>{displayDate(date)}</div>
-                    <div>{odometer}km</div>
+                    <div>{formatOdometer(odometer)}</div>
                 </div>
                 <div>
                     <div>
