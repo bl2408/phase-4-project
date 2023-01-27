@@ -8,9 +8,8 @@ export const ISODate =(timestamp)=>{
 };
 
 export const formatOdometer = (number)=>{
-
     const unit = "km"
-
+    if(!number || number.length >=0){ number = 0}
     return `${number.toLocaleString("en-US")} ${unit}`;
 
 };

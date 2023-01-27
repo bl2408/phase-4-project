@@ -8,6 +8,7 @@ import { DASH_PATH } from "../appconstants"
 import { v4 as uuid } from 'uuid';
 
 import './index.css'
+import { formatOdometer } from "../appFns";
 
 export default function VehicleList(){
 
@@ -57,20 +58,17 @@ export default function VehicleList(){
     };
 
 
-    const vehicleTemplate = ({id, make, model, odometer, type, year})=>{
+    const vehicleTemplate = ({id, make, model, vehicle_type, year, calculated_odometer})=>{
         return (
             <div className="bg sh7 shadow vehicle-item vehicle-list-item" key={uuid()} onClick={()=>handleVehicleClick(id)}>
-                
-                <div>{year}</div>
-                <div>{make} {model}</div>
+                <div>{vehicle_type}</div>
+                <div>{year} {make} {model}</div>
+                <div>{formatOdometer(calculated_odometer)}</div>
                 <div></div>
                 <div className="vehicle-list-buttons">
                     <a onClick={e=>handleEdit(e,id)}><i className="fa fa-edit"></i></a>
                     <a href="#/" onClick={e=>handleDelete(e, id, `${year} ${make} ${model}`)}><i className="fa fa-trash"></i></a>
                 </div>
-                
-
-                {/* {id} -   {odometer} */}
             </div>
         )
     };

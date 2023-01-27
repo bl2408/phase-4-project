@@ -39,8 +39,8 @@ export default function VehicleHistory(){
             }
 
             setVehicleObj(state=>{
-                const {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list } = responseData.data.attributes
-                return {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list }
+                const {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list, calculated_odometer } = responseData.data.attributes
+                return {make, model, year, odometer, body, other, vehicle_type, history_types_list, tags_list, calculated_odometer }
             });
 
             const historyData = responseData.data.attributes.history;
@@ -341,7 +341,10 @@ export default function VehicleHistory(){
         <div className="window bg sh7 shadow">
             <header>
                 <h1>{vehicleObj.year} {vehicleObj.make} {vehicleObj.model} </h1>
-                <h2></h2>
+                <h2>{vehicleObj?.body ? `${vehicleObj.body} ` : ""} </h2>
+                <h2>Odometer:</h2>
+                <span style={{fontWeight:"bold"}}>{formatOdometer(vehicleObj?.odometer)}</span> (start)&nbsp;|&nbsp; 
+                <span style={{fontWeight:"bold"}}>{formatOdometer(vehicleObj?.calculated_odometer)}</span> (calculated)
                 <div className="section-buttons">
                     <div>
                         Date: &ensp;

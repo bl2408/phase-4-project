@@ -13,4 +13,10 @@ class VehicleProfile < ApplicationRecord
     tags.group(:name).count
   end
 
+  def calculated_odometer
+    calc = vehicle_histories.maximum(:odometer)
+    return odometer unless calc
+    calc
+  end
+
 end
