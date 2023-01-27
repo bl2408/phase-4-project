@@ -21,6 +21,10 @@ export default function VehicleForm(){
 
             const data = await response.json();
 
+            if(response.status === 404){
+                history.push("/404")
+            }  
+
             if(!response.ok){
                 throw new Error("Server error",{
                     cause: data.errors

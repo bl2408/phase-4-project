@@ -83,6 +83,11 @@ function App() {
 						</Suspense>
 					</Route>
 
+					<Route exact path={"/404"}>
+						<h1>404</h1>
+						<h2>Page not found!</h2>
+					</Route>
+
 				</Switch>
 
 

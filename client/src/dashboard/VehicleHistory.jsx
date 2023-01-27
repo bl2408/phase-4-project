@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { displayDate, formatOdometer } from "../appFns";
 import { v4 as uuid } from 'uuid';
 
@@ -25,12 +25,18 @@ export default function VehicleHistory(){
     const [ formSelect, setFormSelect ] = useState("");
     const sortDateSelect = useRef()
 
+    const history = useHistory();
+
     const getVehicleById = async()=>{
         try{
 
             const response = await fetch(`/api/vehicles/${vehicleId}`);
 
             const responseData = await response.json();
+
+            if(response.status === 404){
+                history.push("/404")
+            }   
 
             if(!response.ok){
                 throw new Error("Server error", {
@@ -50,6 +56,8 @@ export default function VehicleHistory(){
             updateHistoryMeta(historyData)
             
         }catch(err){
+
+            console.log(err)
 
         }
     };

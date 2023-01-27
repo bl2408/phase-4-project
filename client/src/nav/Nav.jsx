@@ -41,13 +41,15 @@ export default function Nav(){
         return ()=>{};
 
     },[history]);
-
+    
     return(
         <nav className="bodyItem navMain">
             <div>
                 {
                     showDashButtons 
-                    ? <button onClick={()=>history.push(`${DASH_PATH}/vehicles/new`)} className="btn-hi"><i className="fa fa-plus "></i></button>
+                    ? <>
+                        <button onClick={()=>history.push(`${DASH_PATH}/vehicles/new`)} className="btn-hi"><i className="fa fa-plus "></i></button>
+                    </> 
                     : null
                 }
                 
