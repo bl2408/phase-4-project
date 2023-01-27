@@ -5,19 +5,27 @@ import { ISODate } from "../appFns";
 import { v4 as uuid } from "uuid";
 
 
-export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta, mode, closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj}){
+export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta, mode, closeMe, setVehicleHistoryObj, items, categories, historyList, setVehicleObj, vehicleObj}){
     const { vehicleId } = useParams()
 
     const form = useRef()
     const [ categorySelect, setCategorySelect ] = useState("")
 
     useEffect(()=>{
-        if(mode === "add") {return;}
+
+        const firstCat = categories[0].name;
+
+        if(mode === "add") {
+            setCategorySelect(state=>firstCat)
+            return;
+        }else{
+            setCategorySelect(state=>items.category || firstCat)
+        }
 
         form.current.odometer.value = items.odometer || ""
         form.current.description.value = items.description || ""
         form.current.itemDate.value = ISODate(items.date) || ""
-        setCategorySelect(state=>items.category || "")
+        
 
         form.current.tags.value = items.tags.map(tag=>tag.name).join(" ")
 
@@ -45,9 +53,7 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
                 odometer: form.current.odometer.value
             };
 
-            // let getTags = []
             if(form.current.tags.value.length > 0){
-                // getTags = 
                 historySendData.tags = form.current.tags.value.split(" ");
             }
 
@@ -97,17 +103,25 @@ export default function VehicleHistoryForm({setHistoryMeta, calculateHistoryMeta
     
                 });
             }
+
+            const veObj = {}
+
             if(categorySelect==="Other"){
-                setVehicleObj(state=>{
-                    return {
-                        ...state,
-                        history_types_list: 
-                            state.history_types_list === null 
-                            ? [ otherNameValue ] 
-                            : [...new Set([... state.history_types_list, otherNameValue])] 
-                    }
-                })
+                veObj.history_types_list = 
+                    vehicleObj.history_types_list === null 
+                        ? [ otherNameValue ] 
+                        : [...new Set([... vehicleObj.history_types_list, otherNameValue])] 
             }
+
+            const updatedTagsResponse = await fetch(`/api/vehicles/${vehicleId}/tags`);
+            let updatedTags = {};
+            if(updatedTagsResponse.ok){
+                updatedTags = await updatedTagsResponse.json()
+            }
+            
+            setVehicleObj(state=>({...state, ...veObj, tags_list: { ...updatedTags } }))
+            
+
             handleClose();
 
         }catch(err){

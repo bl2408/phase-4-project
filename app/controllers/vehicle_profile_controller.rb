@@ -1,5 +1,7 @@
 class VehicleProfileController < ApplicationController
 
+    before_action :get_ve_prof, only: [:create, :update, :get_updated_tags]
+
     def index
         render json: @user.vehicle_profiles, each_serializer: VehicleProfileSerializer, status: :ok
     end
@@ -17,14 +19,12 @@ class VehicleProfileController < ApplicationController
     end
 
     def update
-        ve = VehicleProfile.find_by(id: params[:vehicle_id])
-        ve.update!(vehicle_params)
+        @ve_prof.update!(vehicle_params)
         render json: { success: true }, status: :ok
     end
 
     def destroy 
-        ve = VehicleProfile.find_by(id: params[:vehicle_id])
-        ve.destroy
+        @ve_prof.destroy
         head :no_content
     end
 
@@ -32,7 +32,16 @@ class VehicleProfileController < ApplicationController
         render json: VehicleHistoryCategory.all, status: :ok
     end
 
+    def get_updated_tags
+        render json: @ve_prof.tags_list, status: :ok
+    end
+
     private
+
+    def get_ve_prof
+        @ve_prof = VehicleProfile.find_by(id: params[:vehicle_id])       
+        return response_not_found("vehicle") unless @ve_prof
+    end
 
     def vehicle_params
         params.require(:vehicle_profile).permit(:make, :model, :vehicle_type, :body, :year, :odometer)

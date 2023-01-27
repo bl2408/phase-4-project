@@ -36,7 +36,6 @@ export const deleteVehicleById = createAsyncThunk('vehicles/deleteVehicleById', 
 export const vehiclesSlice = createSlice({
 	name: 'vehiclesList',
 	initialState,
-	// reducers:{
 	// 	deleteVehicleById:(state,action)=>{
 	// 		const { id } = action.payload
 	// 		console.log(state.items)

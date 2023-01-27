@@ -204,6 +204,14 @@ export default function VehicleHistory(){
 
             })
 
+            const updatedTagsResponse = await fetch(`/api/vehicles/${vehicleId}/tags`);
+            let updatedTags = {};
+            if(updatedTagsResponse.ok){
+                updatedTags = await updatedTagsResponse.json()
+            }
+
+            setVehicleObj(state=>({...state, tags_list: { ...updatedTags } }))
+
         }catch(err){
             console.log(err)
             console.log(err.cause)
@@ -249,11 +257,12 @@ export default function VehicleHistory(){
                                 <VehicleHistoryForm
                                     mode="edit"
                                     closeMe={setFormSelect} 
-                                    setVehicleHistoryObj={setVehicleHistoryObj} 
+                                    setVehicleHistoryObj={setVehicleHistoryObj}
                                     items={{id, category, date, description, odometer, extras, tags}} 
                                     categories={categories}
                                     historyList={vehicleObj.history_types_list}
                                     setVehicleObj={setVehicleObj}
+                                    vehicleObj={vehicleObj}
                                 />
                             </Suspense>
                             : null
